@@ -113,9 +113,69 @@ export function judgePrice(ask: number, range: PriceRange, config: PriceConfig):
   return 'high'
 }
 
-/** 品目を名前・キーワードで探す（端末内のデータだけ。費用0円） */
+/**
+ * 品目を名前・別名（keywords）で探す（端末内のデータだけ。費用0円）。
+ * 名前か別名に完全に一致するものを先に、部分一致をその後に並べる。
+ */
 export function searchItems(items: Item[], query: string): Item[] {
   const q = query.trim().toLowerCase()
   if (q === '') return []
-  return items.filter((i) => [i.name, ...i.keywords].some((w) => w.toLowerCase().includes(q) || q.includes(w.toLowerCase())))
+  const score = (i: Item): number => {
+    const name = i.name.toLowerCase()
+    const words = i.keywords.map((w) => w.toLowerCase())
+    if (name === q || words.includes(q)) return 0
+    if (name.includes(q)) return 1
+    if (words.some((w) => w.includes(q))) return 2
+    if (words.some((w) => q.includes(w))) return 3
+    return -1
+  }
+  return items
+    .map((i, index) => ({ i, s: score(i), index }))
+    .filter((x) => x.s >= 0)
+    .sort((a, b) => a.s - b.s || a.index - b.index)
+    .map((x) => x.i)
+}
+
+export interface RecordSummary {
+  kind: ObservationKind
+  min: number
+  max: number
+  count: number
+  /** 記録の場所（売り場 id）。都市全体の記録を特定の市場の値段と混同しないために使う */
+  venues: string[]
+}
+
+/**
+ * 記録を種類ごとに分けて集計する。購入記録と提示価格などを混ぜない。
+ * 値は記録そのまま（売り場の係数で換算しない）。
+ */
+export function summarizeRecords(item: Item): RecordSummary[] {
+  const order: ObservationKind[] = ['tourist-paid', 'tourist-asked', 'local', 'wholesale']
+  return order
+    .map((kind) => {
+      const obs = item.observations.filter((o) => o.kind === kind)
+      if (obs.length === 0) return null
+      const prices = obs.map((o) => o.price)
+      return {
+        kind,
+        min: Math.min(...prices),
+        max: Math.max(...prices),
+        count: obs.length,
+        venues: [...new Set(obs.map((o) => o.venue))],
+      }
+    })
+    .filter((r): r is RecordSummary => r !== null)
+}
+
+export type SearchResult =
+  | { status: 'ok'; items: Item[] }
+  | { status: 'empty' }
+  /** データを取得できなかった（将来サーバーから探すときの通信エラーなど） */
+  | { status: 'error' }
+
+/** 検索の結果を、0件とエラーを区別して返す */
+export function runSearch(items: Item[] | null | undefined, query: string): SearchResult {
+  if (!Array.isArray(items)) return { status: 'error' }
+  const found = query.trim() === '' ? items : searchItems(items, query)
+  return found.length === 0 ? { status: 'empty' } : { status: 'ok', items: found }
 }

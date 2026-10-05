@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import city from '../src/data/cities/bangkok.json'
 import itemsJson from '../src/data/items/bangkok-items.json'
-import { baseRange, estimatePrice, judgePrice, quantile, quantityFactor, searchItems } from '../src/lib/price'
+import { baseRange, estimatePrice, judgePrice, quantile, quantityFactor, runSearch, searchItems, summarizeRecords } from '../src/lib/price'
 import type { Item, ObservationKind, PriceConfig, Venue } from '../src/lib/types'
 
 const config = city.price as PriceConfig
@@ -135,11 +135,19 @@ describe('estimatePrice', () => {
   })
 
   it('数量の段階で1つあたりを下げ、合計を出す', () => {
-    expect(quantityFactor(1, config)).toBe(1)
-    expect(quantityFactor(3, config)).toBe(0.9)
-    expect(quantityFactor(10, config)).toBe(0.8)
-    const r = estimatePrice(item([obs('local', 100), obs('local', 200)]), venue('market'), 3, venues, config)
+    const tiered = { ...config, quantityTiers: [{ minQty: 1, factor: 1 }, { minQty: 2, factor: 0.9 }, { minQty: 5, factor: 0.8 }] }
+    expect(quantityFactor(1, tiered)).toBe(1)
+    expect(quantityFactor(3, tiered)).toBe(0.9)
+    expect(quantityFactor(10, tiered)).toBe(0.8)
+    const r = estimatePrice(item([obs('local', 100), obs('local', 200)]), venue('market'), 3, venues, tiered)
     expect(r).toMatchObject({ unit: { target: 135 }, total: { target: 405 }, quantity: 3 })
+  })
+
+  it('同梱の設定では、まとめ買いの値引きをしない（合計＝単価×数量）', () => {
+    for (const q of [1, 2, 5, 12]) expect(quantityFactor(q, config)).toBe(1)
+    const r = estimatePrice(item([obs('local', 100), obs('local', 200)]), venue('market'), 4, venues, config)
+    if (r.status !== 'few') throw new Error()
+    expect(r.total.target).toBe(r.unit.target * 4)
   })
 
   it('未確認の観測値が1つでもあれば verified=false', () => {
@@ -188,5 +196,40 @@ describe('searchItems', () => {
     expect(searchItems(items, 'タイパンツ').map((i) => i.id)).toEqual(['a'])
     expect(searchItems(items, 'tシャツ').map((i) => i.id)).toEqual(['b'])
     expect(searchItems(items, '').map((i) => i.id)).toEqual([])
+  })
+
+  it('別名に完全一致する品目を、部分一致より先に並べる', () => {
+    const list = [
+      item([], { id: 'muay', name: 'ムエタイパンツ', keywords: [] }),
+      item([], { id: 'elephant', name: '象柄のパンツ', keywords: ['タイパンツ'] }),
+    ]
+    expect(searchItems(list, 'タイパンツ').map((i) => i.id)).toEqual(['elephant', 'muay'])
+  })
+})
+
+describe('summarizeRecords', () => {
+  it('種類ごとに分け、購入記録と提示価格を混ぜない。値は換算しない', () => {
+    const r = summarizeRecords(
+      item([obs('tourist-paid', 100), obs('tourist-paid', 300, 'tourist-street'), obs('tourist-asked', 500), obs('wholesale', 50, 'wholesale')]),
+    )
+    expect(r).toEqual([
+      { kind: 'tourist-paid', min: 100, max: 300, count: 2, venues: ['market', 'tourist-street'] },
+      { kind: 'tourist-asked', min: 500, max: 500, count: 1, venues: ['market'] },
+      { kind: 'wholesale', min: 50, max: 50, count: 1, venues: ['wholesale'] },
+    ])
+  })
+
+  it('記録がなければ空', () => {
+    expect(summarizeRecords(item([]))).toEqual([])
+  })
+})
+
+describe('runSearch', () => {
+  const items = [item([], { id: 'a', name: '象柄のパンツ', keywords: ['タイパンツ'] })]
+  it('0件とデータ取得の失敗を区別する', () => {
+    expect(runSearch(items, 'パンツ')).toEqual({ status: 'ok', items })
+    expect(runSearch(items, '')).toEqual({ status: 'ok', items })
+    expect(runSearch(items, '時計')).toEqual({ status: 'empty' })
+    expect(runSearch(null, 'パンツ')).toEqual({ status: 'error' })
   })
 })

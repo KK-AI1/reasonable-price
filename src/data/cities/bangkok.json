@@ -100,19 +100,11 @@
       {
         "minQty": 1,
         "factor": 1.0
-      },
-      {
-        "minQty": 2,
-        "factor": 0.9
-      },
-      {
-        "minQty": 5,
-        "factor": 0.8
       }
     ],
     "verdictHighRatio": 1.8,
     "askMarkup": 2.0,
     "staleAfterDays": 180,
-    "note": "倍率・利益率・係数は初期値（docs/SPEC.md §3・§4.5）。現地テストで調整する"
+    "note": "倍率・利益率・係数は初期値（docs/SPEC.md §3・§4.5）。まとめ買いの値引きは根拠が確認できるまで適用しない（合計＝単価×数量）"
   }
 }

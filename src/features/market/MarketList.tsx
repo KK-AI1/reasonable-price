@@ -1,108 +1,153 @@
-import { ChevronRight, CircleAlert, MapPin, Search as SearchIcon } from 'lucide-react'
-import { useState } from 'react'
+import { ChevronRight, MapPin, Search as SearchIcon, X } from 'lucide-react'
+import { useLayoutEffect, useState } from 'react'
 import { ItemThumb } from '../../components/ItemThumb'
+import { LoadError, LoadingCards } from '../../components/LoadStates'
 import { ScreenHeader } from '../../components/ScreenHeader'
 import { VenueSheet } from '../../components/VenueSheet'
-import { bangkok, bangkokItems, bangkokPriceConfig, bangkokVenues } from '../../lib/city'
-import { estimatePrice, searchItems } from '../../lib/price'
+import { venueLabel } from '../../lib/city'
+import { runSearch } from '../../lib/price'
 import { loadRecent } from '../../lib/recent'
 import type { Item, ItemCategory } from '../../lib/types'
+import type { ItemsState } from '../../lib/useItems'
+import { goodsTypeLabel } from '../../lib/format'
+import { RecordSummary } from './RecordSummary'
 
-const categories: { id: ItemCategory | 'all'; label: string }[] = [
+const allCategories: { id: ItemCategory | 'all'; label: string }[] = [
   { id: 'all', label: 'すべて' },
   { id: 'clothing', label: '衣類' },
-  { id: 'bags', label: 'バッグ・財布' },
+  { id: 'bags', label: 'バッグ' },
   { id: 'goods', label: '雑貨' },
   { id: 'crafts', label: '工芸品' },
   { id: 'beauty', label: '美容・食品' },
   { id: 'accessories', label: '時計・メガネ' },
 ]
 
-/** 品目の値段の要約（一覧の1行に出す） */
-function Summary({ item, venueId }: { item: Item; venueId: string }) {
-  const venue = bangkokVenues.find((v) => v.id === venueId)!
-  // 交渉しない売り場を選んでいても、一覧では一般の市場の幅を見せる
-  const base = venue.negotiable ? venue : bangkokVenues.find((v) => v.id === 'market')!
-  const e = estimatePrice(item, base, 1, bangkokVenues, bangkokPriceConfig)
-  if (e.status === 'ok' || e.status === 'few') {
-    return (
-      <>
-        <p className="text-heading">
-          {e.unit.low.toLocaleString('ja-JP')}〜{e.unit.limit.toLocaleString('ja-JP')}
-          <span className="ml-1 text-label text-text-sub">THB / {item.unit}</span>
-        </p>
-        <p className="text-caption text-text-sub">
-          情報 {e.count}件・{e.verified ? '確認済み' : '未確認'}
-          {e.status === 'few' ? '・少なめ' : ''}
-        </p>
-      </>
-    )
-  }
-  if (e.status === 'no-haggle') {
-    return <p className="text-caption text-text-sub">定価で買う品物です（交渉しない）</p>
-  }
+export interface ListConditions {
+  query: string
+  category: ItemCategory | 'all'
+  scrollY: number
+}
+
+function ItemCard({ item, venueId, today, onOpen }: { item: Item; venueId: string | null; today: Date; onOpen: () => void }) {
+  const typeLabel = item.goodsType ? goodsTypeLabel[item.goodsType] : null
   return (
-    <p className="flex items-center gap-1 text-caption text-text-sub">
-      <CircleAlert size={14} strokeWidth={2} aria-hidden="true" />
-      価格情報が不足しています
-    </p>
+    <button
+      type="button"
+      onClick={onOpen}
+      className="flex w-full items-center gap-3 rounded-card border border-border bg-surface p-3 text-left shadow-card"
+    >
+      <ItemThumb id={item.id} name={item.name} />
+      <span className="min-w-0 flex-1">
+        <span className="block text-heading">{item.name}</span>
+        <span className="block text-caption text-text-sub">{item.spec}</span>
+        {typeLabel && <span className="mt-0.5 inline-block rounded-full border border-border px-2 text-caption text-text-sub">{typeLabel}</span>}
+        <span className="mt-1 block">
+          <RecordSummary item={item} venueId={venueId} today={today} />
+        </span>
+      </span>
+      <span className="flex shrink-0 flex-col items-center text-label text-text-sub">
+        <ChevronRight size={20} strokeWidth={2} aria-hidden="true" />
+        詳細
+      </span>
+    </button>
   )
 }
 
 export function MarketList({
+  itemsState,
+  onRetry,
+  conditions,
+  onConditionsChange,
   venueId,
   onVenueChange,
   onBack,
   onOpenItem,
   autoFocus = false,
 }: {
-  venueId: string
-  onVenueChange: (id: string) => void
+  itemsState: ItemsState
+  onRetry: () => void
+  conditions: ListConditions
+  onConditionsChange: (c: ListConditions) => void
+  venueId: string | null
+  onVenueChange: (id: string | null) => void
   onBack: () => void
-  onOpenItem: (id: string) => void
+  onOpenItem: (id: string, scrollY: number) => void
   autoFocus?: boolean
 }) {
-  const [query, setQuery] = useState('')
-  const [category, setCategory] = useState<ItemCategory | 'all'>('all')
+  const { query, category } = conditions
+  // 日本語の変換中は検索語を確定しない（変換を妨げないため）
+  const [draft, setDraft] = useState(query)
+  const [composing, setComposing] = useState(false)
   const [sheetOpen, setSheetOpen] = useState(false)
   const [recent] = useState(loadRecent)
+  const [today] = useState(() => new Date())
+  const set = (patch: Partial<ListConditions>) => onConditionsChange({ ...conditions, ...patch })
 
-  const venue = bangkokVenues.find((v) => v.id === venueId)!
-  const byQuery = query.trim() === '' ? bangkokItems : searchItems(bangkokItems, query)
-  const list = byQuery.filter((i) => category === 'all' || i.category === category)
-  const recentItems = recent.map((id) => bangkokItems.find((i) => i.id === id)).filter((i): i is Item => !!i)
+  // 詳細から戻ったら、前のスクロール位置に戻す
+  useLayoutEffect(() => {
+    if (itemsState.status === 'ready' && conditions.scrollY > 0) window.scrollTo(0, conditions.scrollY)
+  }, [itemsState.status, conditions.scrollY])
+
+  const items = itemsState.status === 'ready' ? itemsState.items : []
+  const categories = allCategories.filter((c) => c.id === 'all' || items.some((i) => i.category === c.id))
+  const result = runSearch(itemsState.status === 'ready' ? items : null, query)
+  const list = result.status === 'ok' ? result.items.filter((i) => category === 'all' || i.category === category) : []
+  const recentItems = recent.map((id) => items.find((i) => i.id === id)).filter((i): i is Item => !!i)
+  const categoryLabel = categories.find((c) => c.id === category)?.label
+  const hasConditions = query !== '' || category !== 'all'
 
   return (
-    <div className="pb-8">
+    <div className="pb-[calc(32px+env(safe-area-inset-bottom))]">
       <ScreenHeader title="市場の買い物" onBack={onBack} />
 
-      <button
-        type="button"
-        onClick={() => setSheetOpen(true)}
-        className="flex min-h-tap w-full items-center gap-2 border-b border-border bg-surface px-4 text-left text-body"
-      >
+      <div className="flex min-h-tap items-center gap-2 border-b border-border bg-surface px-4 py-1">
         <MapPin size={20} strokeWidth={2} className="shrink-0 text-brand" aria-hidden="true" />
-        <span>{bangkok.name}</span>
-        <ChevronRight size={16} strokeWidth={2} className="text-text-sub" aria-hidden="true" />
-        <span className="flex-1 truncate text-brand">{venueId === 'market' ? '市場を選ぶ' : venue.name}</span>
-        <ChevronRight size={20} strokeWidth={2} className="text-text-sub" aria-hidden="true" />
-      </button>
+        <span className="min-w-0 flex-1 truncate text-body">{venueLabel(venueId)}</span>
+        <button type="button" onClick={() => setSheetOpen(true)} className="min-h-tap shrink-0 rounded-button border border-brand px-3 text-label text-brand">
+          {venueId === null ? '市場を選ぶ' : '市場を変更'}
+        </button>
+      </div>
 
       <div className="flex flex-col gap-3 p-4">
-        <label className="flex min-h-tap items-center gap-2 rounded-button border border-border bg-surface px-3">
-          <SearchIcon size={20} strokeWidth={2} className="text-text-sub" aria-hidden="true" />
-          <span className="sr-only">商品名で探す</span>
+        <div className="flex min-h-tap items-center gap-2 rounded-button border border-border bg-surface pl-3 focus-within:border-brand">
+          <SearchIcon size={20} strokeWidth={2} className="shrink-0 text-text-sub" aria-hidden="true" />
+          <label htmlFor="item-search" className="sr-only">
+            商品名で探す
+          </label>
           <input
+            id="item-search"
             type="search"
+            enterKeyHint="search"
             autoFocus={autoFocus}
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="商品名で探す（例：パンツ、財布）"
-            className="min-h-tap flex-1 bg-transparent text-body outline-none"
+            value={draft}
+            onChange={(e) => {
+              setDraft(e.target.value)
+              if (!composing) set({ query: e.target.value })
+            }}
+            onCompositionStart={() => setComposing(true)}
+            onCompositionEnd={(e) => {
+              setComposing(false)
+              set({ query: e.currentTarget.value })
+            }}
+            placeholder="商品名で探す"
+            className="min-h-tap min-w-0 flex-1 bg-transparent text-body outline-none [&::-webkit-search-cancel-button]:hidden"
           />
-        </label>
+          {draft !== '' && (
+            <button
+              type="button"
+              onClick={() => {
+                setDraft('')
+                set({ query: '' })
+              }}
+              className="flex min-h-tap shrink-0 items-center gap-1 px-3 text-label text-text-sub"
+            >
+              <X size={18} strokeWidth={2} aria-hidden="true" />
+              消す
+            </button>
+          )}
+        </div>
 
-        <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1" role="group" aria-label="分類">
+        <div className="-mx-4 flex gap-2 overflow-x-auto px-4" role="group" aria-label="カテゴリー">
           {categories.map((c) => {
             const selected = c.id === category
             return (
@@ -110,52 +155,93 @@ export function MarketList({
                 key={c.id}
                 type="button"
                 aria-pressed={selected}
-                onClick={() => setCategory(c.id)}
-                className={`min-h-tap shrink-0 rounded-full px-4 text-label ${selected ? 'bg-brand text-white' : 'bg-border text-text'}`}
+                onClick={() => set({ category: c.id })}
+                className={`min-h-tap shrink-0 rounded-full border px-4 text-label ${selected ? 'border-brand bg-brand text-white' : 'border-border bg-surface text-text'}`}
               >
-                {c.label}
+                {selected && c.id !== 'all' ? `✓ ${c.label}` : c.label}
               </button>
             )
           })}
         </div>
 
-        {query.trim() !== '' && byQuery.length === 0 && (
-          <p className="rounded-card bg-brand-soft p-4 text-body text-text-sub">
-            「{query}」はまだ調べていない品目です。分類から近いものを選んでください。
+        {itemsState.status === 'ready' && hasConditions && list.length > 0 && (
+          <p className="flex flex-wrap items-center gap-2 text-caption text-text-sub" aria-live="polite">
+            {list.length}件
+            {query !== '' && `・「${query}」`}
+            {category !== 'all' && `・${categoryLabel}`}
+            <button
+              type="button"
+              onClick={() => {
+                setDraft('')
+                set({ query: '', category: 'all' })
+              }}
+              className="min-h-tap px-2 text-label text-brand underline"
+            >
+              条件を解除
+            </button>
           </p>
         )}
 
-        <ul className="flex flex-col gap-3">
-          {(list.length > 0 ? list : bangkokItems.filter((i) => category === 'all' || i.category === category)).map((item) => (
-            <li key={item.id}>
-              <button
-                type="button"
-                onClick={() => onOpenItem(item.id)}
-                className="flex w-full items-center gap-3 rounded-card border border-border bg-surface p-3 text-left shadow-card"
-              >
-                <ItemThumb id={item.id} />
-                <span className="min-w-0 flex-1">
-                  <span className="block text-heading">{item.name}</span>
-                  <span className="mb-1 block text-caption text-text-sub">{item.spec}</span>
-                  <Summary item={item} venueId={venueId} />
-                </span>
-                <ChevronRight size={20} strokeWidth={2} className="shrink-0 text-text-sub" aria-hidden="true" />
-              </button>
-            </li>
-          ))}
-        </ul>
+        {itemsState.status === 'loading' && <LoadingCards />}
+        {itemsState.status === 'error' && <LoadError onRetry={onRetry} />}
 
-        {recentItems.length > 0 && query.trim() === '' && (
-          <section aria-label="最近見た商品" className="flex flex-col gap-2">
+        {itemsState.status === 'ready' && list.length === 0 && (
+          <section className="flex flex-col gap-3 rounded-card bg-brand-soft p-4" aria-live="polite">
+            <div>
+              <h2 className="text-heading">該当する商品がありません</h2>
+              <p className="text-body text-text-sub">
+                {query.trim() !== '' && `「${query}」`}
+                {category !== 'all' && `${query.trim() !== '' ? '・' : ''}「${categoryLabel}」`}
+                に合う商品は、まだ調べていません。検索語を変えるか、条件を解除してください。
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {query !== '' && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setDraft('')
+                    set({ query: '' })
+                  }}
+                  className="min-h-tap rounded-button border border-brand bg-surface px-3 text-label text-brand"
+                >
+                  検索語を消す
+                </button>
+              )}
+              {category !== 'all' && (
+                <button type="button" onClick={() => set({ category: 'all' })} className="min-h-tap rounded-button border border-brand bg-surface px-3 text-label text-brand">
+                  カテゴリーを解除する
+                </button>
+              )}
+            </div>
+          </section>
+        )}
+
+        {list.length > 0 && (
+          <ul className="flex flex-col gap-3" aria-label="商品一覧">
+            {list.map((item) => (
+              <li key={item.id}>
+                <ItemCard item={item} venueId={venueId} today={today} onOpen={() => onOpenItem(item.id, window.scrollY)} />
+              </li>
+            ))}
+          </ul>
+        )}
+
+        {recentItems.length > 0 && !hasConditions && (
+          <section aria-label="最近見た商品" className="flex flex-col gap-2 pt-2">
             <h2 className="text-label text-text-sub">最近見た商品</h2>
             <ul className="flex flex-col overflow-hidden rounded-card border border-border bg-surface">
               {recentItems.map((item) => (
                 <li key={item.id} className="border-b border-border last:border-b-0">
-                  <button type="button" onClick={() => onOpenItem(item.id)} className="flex min-h-tap w-full items-center gap-3 px-3 py-2 text-left">
-                    <ItemThumb id={item.id} size="sm" />
-                    <span className="flex-1">
+                  <button
+                    type="button"
+                    onClick={() => onOpenItem(item.id, window.scrollY)}
+                    className="flex min-h-tap w-full items-center gap-3 px-3 py-2 text-left"
+                  >
+                    <ItemThumb id={item.id} name={item.name} size="sm" />
+                    <span className="min-w-0 flex-1">
                       <span className="block text-body">{item.name}</span>
-                      <Summary item={item} venueId={venueId} />
+                      <RecordSummary item={item} venueId={venueId} today={today} />
                     </span>
                     <ChevronRight size={20} strokeWidth={2} className="shrink-0 text-text-sub" aria-hidden="true" />
                   </button>

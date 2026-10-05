@@ -123,6 +123,8 @@ export interface Item {
   keywords: string[]
   negotiable: boolean
   category: ItemCategory
+  /** 品物の種類。価格の集計を混ぜないために使う（偽ブランド品は扱わない） */
+  goodsType?: 'generic' | 'no-brand' | 'brand'
   /** 素材・大きさなど、値段の前提になる仕様（例：薄手・一般的な生地） */
   spec: string
   /** 画面に出す補足（ブランド風の注意など） */

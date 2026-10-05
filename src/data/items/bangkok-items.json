@@ -180,7 +180,8 @@
         }
       ],
       "category": "clothing",
-      "spec": "薄手・一般的な生地"
+      "spec": "薄手・一般的な生地",
+      "goodsType": "generic"
     },
     {
       "id": "t-shirt",
@@ -338,7 +339,8 @@
         }
       ],
       "category": "clothing",
-      "spec": "綿・半袖・プリント柄"
+      "spec": "綿・半袖・プリント柄",
+      "goodsType": "generic"
     },
     {
       "id": "muay-thai-shorts",
@@ -424,7 +426,8 @@
         }
       ],
       "category": "clothing",
-      "spec": "サテン生地・ショート丈"
+      "spec": "サテン生地・ショート丈",
+      "goodsType": "generic"
     },
     {
       "id": "elephant-dress",
@@ -501,7 +504,8 @@
         }
       ],
       "category": "clothing",
-      "spec": "レーヨン（スパン）・ワンピース"
+      "spec": "レーヨン（スパン）・ワンピース",
+      "goodsType": "generic"
     },
     {
       "id": "bucket-hat",
@@ -547,7 +551,8 @@
         }
       ],
       "category": "clothing",
-      "spec": "布・無地または柄"
+      "spec": "布・無地または柄",
+      "goodsType": "generic"
     },
     {
       "id": "nanyang-sandals",
@@ -585,7 +590,8 @@
         }
       ],
       "category": "clothing",
-      "spec": "ゴム製・定番モデル"
+      "spec": "ゴム製・定番モデル",
+      "goodsType": "brand"
     },
     {
       "id": "scarf",
@@ -683,7 +689,8 @@
         }
       ],
       "category": "goods",
-      "spec": "化繊のシルク風・約80×150cm"
+      "spec": "化繊のシルク風・約80×150cm",
+      "goodsType": "generic"
     },
     {
       "id": "silk-scarf-real",
@@ -751,7 +758,8 @@
         }
       ],
       "category": "goods",
-      "spec": "手織りの本物のシルク"
+      "spec": "手織りの本物のシルク",
+      "goodsType": "generic"
     },
     {
       "id": "coin-purse",
@@ -788,7 +796,8 @@
         }
       ],
       "category": "goods",
-      "spec": "布・ファスナー付きの小さなもの"
+      "spec": "布・ファスナー付きの小さなもの",
+      "goodsType": "generic"
     },
     {
       "id": "elephant-plush",
@@ -824,7 +833,8 @@
         }
       ],
       "category": "goods",
-      "spec": "布製・手のひらサイズ"
+      "spec": "布製・手のひらサイズ",
+      "goodsType": "generic"
     },
     {
       "id": "keychain",
@@ -900,7 +910,8 @@
         }
       ],
       "category": "goods",
-      "spec": "小さな象など"
+      "spec": "小さな象など",
+      "goodsType": "generic"
     },
     {
       "id": "magnet",
@@ -936,7 +947,8 @@
         }
       ],
       "category": "goods",
-      "spec": "冷蔵庫用の小さなもの"
+      "spec": "冷蔵庫用の小さなもの",
+      "goodsType": "generic"
     },
     {
       "id": "wood-carving",
@@ -994,7 +1006,8 @@
         }
       ],
       "category": "crafts",
-      "spec": "手のひらサイズ（15cm未満）"
+      "spec": "手のひらサイズ（15cm未満）",
+      "goodsType": "generic"
     },
     {
       "id": "coconut-bowl",
@@ -1051,7 +1064,8 @@
         }
       ],
       "category": "crafts",
-      "spec": "無地・直径9〜14cm"
+      "spec": "無地・直径9〜14cm",
+      "goodsType": "generic"
     },
     {
       "id": "benjarong",
@@ -1109,7 +1123,8 @@
         }
       ],
       "category": "crafts",
-      "spec": "カップとソーサー・普及品"
+      "spec": "カップとソーサー・普及品",
+      "goodsType": "generic"
     },
     {
       "id": "woven-bag",
@@ -1178,7 +1193,8 @@
         }
       ],
       "category": "bags",
-      "spec": "クラジュート・ラタン・小〜中サイズ"
+      "spec": "クラジュート・ラタン・小〜中サイズ",
+      "goodsType": "generic"
     },
     {
       "id": "soap",
@@ -1217,7 +1233,8 @@
       ],
       "note": "ブランドのハーブ石けん（1個70バーツ前後）は別の価格帯です。",
       "category": "beauty",
-      "spec": "花の形・1個"
+      "spec": "花の形・1個",
+      "goodsType": "generic"
     },
     {
       "id": "yadom",
@@ -1294,7 +1311,8 @@
         }
       ],
       "category": "beauty",
-      "spec": "スティック型・1本"
+      "spec": "スティック型・1本",
+      "goodsType": "brand"
     },
     {
       "id": "brand-style-bag",
@@ -1343,7 +1361,8 @@
         }
       ],
       "category": "bags",
-      "spec": "ロゴなし・合皮など"
+      "spec": "ロゴなし・合皮など",
+      "goodsType": "no-brand"
     },
     {
       "id": "brand-style-wallet",
@@ -1421,7 +1440,8 @@
         }
       ],
       "category": "bags",
-      "spec": "ロゴなし・合皮など"
+      "spec": "ロゴなし・合皮など",
+      "goodsType": "no-brand"
     },
     {
       "id": "brand-style-watch",
@@ -1469,7 +1489,8 @@
         }
       ],
       "category": "accessories",
-      "spec": "ロゴなし・クオーツ"
+      "spec": "ロゴなし・クオーツ",
+      "goodsType": "no-brand"
     },
     {
       "id": "brand-style-sneakers",
@@ -1507,7 +1528,8 @@
         }
       ],
       "category": "clothing",
-      "spec": "ロゴなし・布や合皮"
+      "spec": "ロゴなし・布や合皮",
+      "goodsType": "no-brand"
     },
     {
       "id": "sunglasses",
@@ -1614,7 +1636,8 @@
         }
       ],
       "category": "accessories",
-      "spec": "ロゴなし・UVカット表示は未確認"
+      "spec": "ロゴなし・UVカット表示は未確認",
+      "goodsType": "no-brand"
     },
     {
       "id": "thai-tea",
@@ -1662,7 +1685,8 @@
         }
       ],
       "category": "beauty",
-      "spec": "茶葉・400g袋"
+      "spec": "茶葉・400g袋",
+      "goodsType": "brand"
     },
     {
       "id": "dried-mango",
@@ -1689,7 +1713,8 @@
         }
       ],
       "category": "beauty",
-      "spec": "140g袋"
+      "spec": "140g袋",
+      "goodsType": "brand"
     }
   ]
 }
