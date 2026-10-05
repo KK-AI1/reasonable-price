@@ -4,11 +4,13 @@
   "currency": "THB",
   "currencyLabel": "バーツ",
   "exchange": {
-    "jpyPerUnit": 4.6,
+    "jpyPerUnit": 4.73,
     "roundToYen": 10,
-    "checkedAt": "2026-10-05",
-    "verified": false,
-    "note": "仮のレート。公開前に最新の値へ更新する"
+    "checkedAt": "2026-10-04",
+    "source": "xe.com・Yahoo Finance など（2026-10-04 時点で 4.70〜4.76）",
+    "note": "オンライン時は最新レートを取得して置き換える。これは取得できないときの予備の値",
+    "rateApi": "https://api.frankfurter.dev/v1/latest?base=THB&symbols=JPY",
+    "fetchTimeoutMs": 5000
   },
   "taxi": {
     "congestionMinutesPerKm": {

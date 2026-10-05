@@ -1,5 +1,6 @@
-import { toYen } from '../lib/currency'
 import { bangkok } from '../lib/city'
+import { toYen } from '../lib/currency'
+import { useExchangeRate } from '../lib/useExchangeRate'
 
 interface Props {
   amount: number
@@ -14,7 +15,8 @@ const sizeClass = {
 
 /** 現地通貨（大）＋円換算（小）の2段表示（docs/DESIGN.md §4） */
 export function Money({ amount, size = 'display' }: Props) {
-  const yen = toYen(amount, bangkok.exchange)
+  const rate = useExchangeRate()
+  const yen = toYen(amount, { jpyPerUnit: rate.jpyPerUnit, roundToYen: bangkok.exchange.roundToYen })
   return (
     <div>
       <p className={sizeClass[size]}>

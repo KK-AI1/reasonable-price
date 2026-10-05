@@ -6,6 +6,7 @@ import { UnverifiedBadge } from '../../components/UnverifiedBadge'
 import { VerdictBadge } from '../../components/VerdictBadge'
 import { bangkokTaxi, bangkokTaxiConfig } from '../../lib/city'
 import { calcTaxiFare, judgeTaxiAsk } from '../../lib/fare'
+import { useExchangeRate } from '../../lib/useExchangeRate'
 import type { Congestion, TaxiVehicle, Verdict } from '../../lib/types'
 
 const verdictMessage: Record<Verdict, string> = {
@@ -40,6 +41,7 @@ export function FareCheck({ onBack }: { onBack: () => void }) {
   const [booked, setBooked] = useState(false)
   const [toll, setToll] = useState('')
   const [ask, setAsk] = useState('')
+  const rate = useExchangeRate()
 
   const distanceKm = parseNumber(distance)
   const tollBaht = Math.round(parseNumber(toll) ?? 0)
@@ -112,6 +114,10 @@ export function FareCheck({ onBack }: { onBack: () => void }) {
               <p className="text-caption text-text-sub">
                 出典：{bangkokTaxi.source}（{bangkokTaxi.effectiveFrom} 施行、{bangkokTaxi.checkedAt} 確認）
                 {!bangkokTaxi.vehicles[vehicle].verified && ` ／ ${bangkokTaxi.vehicles[vehicle].note}`}
+              </p>
+              <p className="text-caption text-text-sub">
+                円換算：1バーツ＝{rate.jpyPerUnit.toFixed(2)}円（{rate.date} のレート
+                {rate.origin === 'live' ? '' : '・保存済みの値'}）
               </p>
             </div>
           ) : (
