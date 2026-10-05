@@ -1,0 +1,51 @@
+@import "tailwindcss";
+@import "./styles/tokens.css";
+
+/* Tailwind のテーマは tokens.css の変数を参照する */
+@theme inline {
+  --color-brand: var(--brand);
+  --color-brand-soft: var(--brand-soft);
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-text: var(--text);
+  --color-text-sub: var(--text-sub);
+  --color-border: var(--border);
+  --color-fair: var(--fair);
+  --color-caution: var(--caution);
+  --color-high: var(--high);
+  --color-accent: var(--accent);
+
+  --font-sans: var(--font-sans);
+
+  --text-display: var(--text-display);
+  --text-display--font-weight: 700;
+  --text-display--line-height: 1.2;
+  --text-title: var(--text-title);
+  --text-title--font-weight: 700;
+  --text-title--line-height: 1.4;
+  --text-heading: var(--text-heading);
+  --text-heading--font-weight: 700;
+  --text-heading--line-height: 1.5;
+  --text-body: var(--text-body);
+  --text-body--line-height: 1.6;
+  --text-label: var(--text-label);
+  --text-label--font-weight: 500;
+  --text-label--line-height: 1.4;
+  --text-caption: var(--text-caption);
+  --text-caption--line-height: 1.5;
+
+  --radius-card: var(--radius-card);
+  --radius-button: var(--radius-button);
+  --shadow-card: var(--shadow-card);
+  --spacing-tap: var(--tap-min);
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  font-variant-numeric: tabular-nums;
+  -webkit-tap-highlight-color: transparent;
+}

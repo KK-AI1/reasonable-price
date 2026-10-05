@@ -1,0 +1,25 @@
+{
+  "id": "bangkok",
+  "name": "バンコク",
+  "currency": "THB",
+  "currencyLabel": "バーツ",
+  "exchange": {
+    "jpyPerUnit": 4.6,
+    "roundToYen": 10,
+    "checkedAt": "2026-10-05",
+    "verified": false,
+    "note": "仮のレート。公開前に最新の値へ更新する"
+  },
+  "taxi": {
+    "congestionMinutesPerKm": {
+      "none": 0,
+      "normal": 1,
+      "heavy": 3
+    },
+    "verdict": {
+      "fairMaxRatio": 1.15,
+      "cautionMaxRatio": 1.5
+    },
+    "note": "渋滞の換算としきい値は初期値（docs/SPEC.md §2.2・§2.3）。現地テストで調整する"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "id": "bangkok-taxi",
+  "name": "バンコクのメータータクシー",
+  "currency": "THB",
+  "effectiveFrom": "2023-01-13",
+  "source": "運輸省告示（2022年）。2023年1月13日施行の運賃を報道で確認",
+  "sourceUrl": "https://thailand.go.th/issue-focus-detail/009_127",
+  "checkedAt": "2026-10-05",
+  "verified": true,
+  "vehicles": {
+    "standard": {
+      "label": "一般車",
+      "flagFallBaht": 35,
+      "verified": true
+    },
+    "large": {
+      "label": "大型車",
+      "flagFallBaht": 40,
+      "verified": false,
+      "note": "車種の区分と、1km以降の単価が一般車と同じかは告示の原文で未確認"
+    }
+  },
+  "flagFallKm": 1,
+  "distanceBands": [
+    { "fromKm": 1, "toKm": 10, "satangPerKm": 650 },
+    { "fromKm": 10, "toKm": 20, "satangPerKm": 700 },
+    { "fromKm": 20, "toKm": 40, "satangPerKm": 800 },
+    { "fromKm": 40, "toKm": 60, "satangPerKm": 850 },
+    { "fromKm": 60, "toKm": 80, "satangPerKm": 900 },
+    { "fromKm": 80, "toKm": null, "satangPerKm": 1050 }
+  ],
+  "waitingSatangPerMinute": 300,
+  "bookingSurchargeBaht": 20,
+  "airportSurchargeBaht": 50,
+  "airportSurchargeSource": "Suvarnabhumi Airport – Public Taxi",
+  "airportSurchargeSourceUrl": "https://suvarnabhumi.airportthai.co.th/service/transportation/detail/304"
+}
