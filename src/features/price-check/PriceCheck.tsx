@@ -51,6 +51,13 @@ export function PriceCheck({
   const askNum = ask.trim() === '' ? null : Number(ask)
   const askBaht = askNum !== null && Number.isInteger(askNum) && askNum > 0 ? askNum : null
   const hasRange = estimate.status === 'ok' || estimate.status === 'few'
+  const localPrices = item.observations.filter((o) => o.kind === 'local').map((o) => o.price)
+  const referencePrice =
+    localPrices.length === 0
+      ? null
+      : Math.min(...localPrices) === Math.max(...localPrices)
+        ? `${Math.min(...localPrices)}`
+        : `${Math.min(...localPrices)}〜${Math.max(...localPrices)}`
   const verdict = hasRange && askBaht !== null ? judgePrice(askBaht, estimate.total, bangkokPriceConfig) : null
 
   return (
@@ -64,6 +71,16 @@ export function PriceCheck({
             <div>
               <h2 className="text-heading">ここは交渉しない場所です</h2>
               <p className="text-body text-text-sub">表示されている値段で、気持ちよく買いましょう。</p>
+              {referencePrice && (
+                <p className="mt-1 text-body text-text-sub">
+                  参考の定価：{referencePrice}バーツ（{item.unit}）
+                  {item.observations.some((o) => !o.verified) && (
+                    <span className="ml-2">
+                      <UnverifiedBadge />
+                    </span>
+                  )}
+                </p>
+              )}
             </div>
           </section>
         ) : estimate.status === 'insufficient' ? (

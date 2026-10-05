@@ -34,13 +34,13 @@
   "venues": [
     {
       "id": "wholesale-market",
-      "name": "卸売りの市場（プラトゥーナム、サンペンなど）",
+      "name": "卸売りの市場（プラトゥーナム、サンペン、プラチナム）",
       "factor": 0.8,
       "negotiable": true
     },
     {
       "id": "market",
-      "name": "一般の市場・夜市",
+      "name": "一般の市場・夜市（ジョッドフェアなど）",
       "factor": 1.0,
       "negotiable": true
     },
@@ -60,6 +60,12 @@
       "id": "tourist-street",
       "name": "観光通り（カオサン、パッポンなど）",
       "factor": 1.3,
+      "negotiable": true
+    },
+    {
+      "id": "asiatique",
+      "name": "アジアティーク",
+      "factor": 1.5,
       "negotiable": true
     },
     {
