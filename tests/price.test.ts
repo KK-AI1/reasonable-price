@@ -1,27 +1,28 @@
 import { describe, expect, it } from 'vitest'
 import city from '../src/data/cities/bangkok.json'
 import itemsJson from '../src/data/items/bangkok-items.json'
-import { estimatePrice, judgePrice, quantile, quantityFactor } from '../src/lib/price'
-import type { Item, PriceConfig, Venue } from '../src/lib/types'
+import { baseRange, estimatePrice, judgePrice, quantile, quantityFactor, searchItems } from '../src/lib/price'
+import type { Item, ObservationKind, PriceConfig, Venue } from '../src/lib/types'
 
 const config = city.price as PriceConfig
 const venues = city.venues as Venue[]
 const venue = (id: string) => venues.find((v) => v.id === id)!
 
-const obs = (price: number, venue = 'market', verified = true) => ({
+const obs = (kind: ObservationKind, price: number, venue = 'market', verified = true) => ({
+  kind,
   price,
   venue,
-  source: `src-${price}`,
+  source: `${kind}-${price}-${venue}`,
   checkedAt: '2026-10-05',
   verified,
 })
-const item = (prices: number[], extra: Partial<Item> = {}): Item => ({
+const item = (observations: ReturnType<typeof obs>[], extra: Partial<Item> = {}): Item => ({
   id: 'x',
   name: 'テスト',
   unit: '1個',
   keywords: [],
   negotiable: true,
-  observations: prices.map((p) => obs(p)),
+  observations,
   ...extra,
 })
 
@@ -33,56 +34,137 @@ describe('quantile', () => {
   })
 })
 
+describe('baseRange', () => {
+  it('地元の小売が目安、旅行者が払った額が上限、卸値が下限を支える', () => {
+    const r = baseRange(
+      item([
+        obs('wholesale', 60, 'wholesale'),
+        obs('local', 120, 'online'),
+        obs('local', 150, 'online'),
+        obs('tourist-paid', 150),
+        obs('tourist-paid', 200),
+        obs('tourist-paid', 250),
+      ]),
+      venues,
+      config,
+    )!
+    // target = 地元の中央値 135
+    expect(r.target).toBe(135)
+    // limit = 旅行者の 75% 点 225 と 135×1.15 の大きい方
+    expect(r.limit).toBe(225)
+    // low = 小売と旅行者をまとめた25%点 150 を目安 135 で抑え、卸 60×1.3=78 と比べて大きい方
+    expect(r.low).toBe(135)
+  })
+
+  it('卸値で下限を支える：小売の安値が卸値＋利益より低ければ持ち上げる', () => {
+    const r = baseRange(item([obs('wholesale', 100), obs('local', 105), obs('local', 200)]), venues, config)!
+    // 小売の25%点 128.75 < 卸 100 × 1.3 = 130
+    expect(r.low).toBe(130)
+    expect(r.target).toBe(152.5)
+  })
+
+  it('卸値＋最低利益が目安を上回るなら、目安をそこまで上げる', () => {
+    const r = baseRange(item([obs('wholesale', 100), obs('local', 110), obs('local', 120)]), venues, config)!
+    expect(r.low).toBe(130)
+    expect(r.target).toBe(130)
+  })
+
+  it('地元の値がなければ、旅行者が払った額の中央値が目安', () => {
+    const r = baseRange(item([obs('tourist-paid', 100), obs('tourist-paid', 300)]), venues, config)!
+    expect(r.target).toBe(200)
+  })
+
+  it('卸値しかなければ、卸値 × 標準の小売倍率', () => {
+    const r = baseRange(item([obs('wholesale', 50), obs('wholesale', 70)]), venues, config)!
+    expect(r.target).toBe(120)
+    expect(r.limit).toBeCloseTo(156)
+  })
+
+  it('言い値は目安の計算に使わない', () => {
+    const a = baseRange(item([obs('local', 100), obs('local', 200)]), venues, config)
+    const b = baseRange(item([obs('local', 100), obs('local', 200), obs('tourist-asked', 900)]), venues, config)
+    expect(b).toEqual(a)
+  })
+
+  it('観光通りで払った額は、基準の売り場に換算してから使う', () => {
+    const r = baseRange(item([obs('tourist-paid', 130, 'tourist-street'), obs('tourist-paid', 260, 'tourist-street')]), venues, config)!
+    expect(r.target).toBe(150)
+  })
+})
+
 describe('estimatePrice', () => {
-  it('5件以上は P25〜P75', () => {
-    const r = estimatePrice(item([100, 200, 300, 400, 500]), venue('market'), 1, venues, config)
-    expect(r).toMatchObject({ status: 'ok', unit: { low: 200, target: 300, limit: 400 }, verified: true })
+  const rich = item([
+    obs('wholesale', 60, 'wholesale'),
+    obs('local', 120, 'online'),
+    obs('local', 150, 'online'),
+    obs('tourist-paid', 200),
+    obs('tourist-asked', 400),
+  ])
+
+  it('2種類以上・4件以上なら ok。売り場の係数を掛ける', () => {
+    const r = estimatePrice(rich, venue('tourist-street'), 1, venues, config)
+    expect(r.status).toBe('ok')
+    if (r.status !== 'ok') return
+    expect(r.unit.target).toBe(Math.round(135 * 1.3))
+    expect(r.counts).toEqual({ wholesale: 1, local: 2, 'tourist-paid': 1, 'tourist-asked': 1 })
   })
 
-  it('2〜4件は最小〜最大で「少ない」', () => {
-    const r = estimatePrice(item([100, 150, 250, 300]), venue('market'), 1, venues, config)
-    expect(r).toMatchObject({ status: 'few', unit: { low: 100, target: 200, limit: 300 } })
+  it('言い値の予測は、言われた額 ÷ 目安 の倍率を使う', () => {
+    const r = estimatePrice(rich, venue('market'), 1, venues, config)
+    if (r.status !== 'ok') throw new Error()
+    // 400 / 135 ≈ 2.96 → 135 × 2.96 = 400
+    expect(r.predictedAsk).toBe(400)
   })
 
-  it('1件以下は データ不足', () => {
-    expect(estimatePrice(item([100]), venue('market'), 1, venues, config)).toEqual({ status: 'insufficient', count: 1 })
+  it('1種類だけ・件数が少なければ few', () => {
+    expect(estimatePrice(item([obs('local', 100), obs('local', 200)]), venue('market'), 1, venues, config).status).toBe('few')
+  })
+
+  it('使える観測値が2件未満なら データ不足（言い値だけでは出さない）', () => {
+    expect(estimatePrice(item([obs('local', 100), obs('tourist-asked', 300)]), venue('market'), 1, venues, config)).toEqual({
+      status: 'insufficient',
+      count: 1,
+    })
+    expect(estimatePrice(item([]), venue('market'), 1, venues, config)).toEqual({ status: 'insufficient', count: 0 })
   })
 
   it('交渉しない売り場', () => {
-    expect(estimatePrice(item([100, 200]), venue('mall'), 1, venues, config)).toEqual({ status: 'no-haggle' })
-  })
-
-  it('売り場の係数を掛ける。観測値は基準の売り場に換算してから使う', () => {
-    const it2: Item = { ...item([]), observations: [obs(130, 'tourist-street'), obs(260, 'tourist-street')] }
-    const r = estimatePrice(it2, venue('market'), 1, venues, config)
-    expect(r).toMatchObject({ unit: { low: 100, target: 150, limit: 200 } })
-    const r2 = estimatePrice(it2, venue('tourist-street'), 1, venues, config)
-    expect(r2).toMatchObject({ unit: { low: 130, target: 195, limit: 260 } })
+    expect(estimatePrice(rich, venue('mall'), 1, venues, config)).toEqual({ status: 'no-haggle' })
   })
 
   it('数量の段階で1つあたりを下げ、合計を出す', () => {
     expect(quantityFactor(1, config)).toBe(1)
     expect(quantityFactor(3, config)).toBe(0.9)
     expect(quantityFactor(10, config)).toBe(0.8)
-    const r = estimatePrice(item([100, 200]), venue('market'), 3, venues, config)
-    expect(r).toMatchObject({ unit: { target: 135 }, total: { low: 270, target: 405, limit: 540 }, quantity: 3 })
+    const r = estimatePrice(item([obs('local', 100), obs('local', 200)]), venue('market'), 3, venues, config)
+    expect(r).toMatchObject({ unit: { target: 135 }, total: { target: 405 }, quantity: 3 })
   })
 
   it('未確認の観測値が1つでもあれば verified=false', () => {
-    const it2: Item = { ...item([]), observations: [obs(100), obs(200, 'market', false)] }
-    expect(estimatePrice(it2, venue('market'), 1, venues, config)).toMatchObject({ verified: false })
+    const r = estimatePrice(item([obs('local', 100), obs('local', 200, 'market', false)]), venue('market'), 1, venues, config)
+    expect(r).toMatchObject({ verified: false })
   })
 
-  it('金額はすべて整数', () => {
-    const r = estimatePrice(item([33, 47, 51, 89, 120, 133]), venue('chatuchak'), 7, venues, config)
-    if (r.status !== 'ok' && r.status !== 'few') throw new Error()
-    for (const v of [...Object.values(r.unit), ...Object.values(r.total)]) expect(Number.isInteger(v)).toBe(true)
+  it('金額はすべて整数で、low ≤ target ≤ limit', () => {
+    const it2 = item([obs('wholesale', 33), obs('local', 47, 'online'), obs('local', 51), obs('tourist-paid', 89, 'chatuchak'), obs('tourist-paid', 120)])
+    for (const v of venues.filter((x) => x.negotiable)) {
+      for (const q of [1, 2, 7]) {
+        const r = estimatePrice(it2, v, q, venues, config)
+        if (r.status !== 'ok' && r.status !== 'few') throw new Error()
+        for (const x of [...Object.values(r.unit), ...Object.values(r.total), r.predictedAsk]) expect(Number.isInteger(x)).toBe(true)
+        expect(r.total.low).toBeLessThanOrEqual(r.total.target)
+        expect(r.total.target).toBeLessThanOrEqual(r.total.limit)
+      }
+    }
   })
 
-  it('同梱の品目データはすべて推定できる', () => {
+  it('同梱の品目データは、データ不足でなければ幅が整っている', () => {
     for (const it2 of itemsJson.items as Item[]) {
       const r = estimatePrice(it2, venue('market'), 1, venues, config)
-      expect(['ok', 'few']).toContain(r.status)
+      if (r.status === 'ok' || r.status === 'few') {
+        expect(r.unit.low).toBeLessThanOrEqual(r.unit.target)
+        expect(r.unit.target).toBeLessThanOrEqual(r.unit.limit)
+      }
     }
   })
 })
@@ -94,5 +176,15 @@ describe('judgePrice', () => {
     expect(judgePrice(251, range, config)).toBe('caution')
     expect(judgePrice(360, range, config)).toBe('caution')
     expect(judgePrice(361, range, config)).toBe('high')
+  })
+})
+
+describe('searchItems', () => {
+  const items = [item([], { id: 'a', name: '象柄のパンツ', keywords: ['タイパンツ', 'กางเกงช้าง'] }), item([], { id: 'b', name: 'Tシャツ', keywords: [] })]
+  it('名前・キーワードの一部で探す', () => {
+    expect(searchItems(items, 'パンツ').map((i) => i.id)).toEqual(['a'])
+    expect(searchItems(items, 'タイパンツ').map((i) => i.id)).toEqual(['a'])
+    expect(searchItems(items, 'tシャツ').map((i) => i.id)).toEqual(['b'])
+    expect(searchItems(items, '').map((i) => i.id)).toEqual([])
   })
 })

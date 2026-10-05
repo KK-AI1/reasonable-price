@@ -1,67 +1,905 @@
 {
   "city": "bangkok",
-  "note": "MVP 用の仮データ。旅行サイトの検索結果の要約から拾った値で、原文・現地では未確認。現地調査で置き換える",
+  "note": "開発側がネット検索で集めた値（docs/SPEC.md §6.2）。検索結果の要約から拾ったものを含み、原文・現地では未確認。現地調査やオーナーの確認で verified を true にする",
   "items": [
     {
       "id": "elephant-pants",
-      "name": "象柄のパンツ",
+      "name": "象柄のパンツ（タイパンツ）",
       "unit": "1枚",
-      "keywords": ["パンツ", "ズボン", "エレファント"],
+      "keywords": [
+        "タイパンツ",
+        "パンツ",
+        "ズボン",
+        "象",
+        "エレファント",
+        "กางเกงช้าง"
+      ],
       "negotiable": true,
       "observations": [
-        { "price": 100, "venue": "market", "source": "Atlys「32 Things to Buy in Thailand」", "sourceUrl": "https://www.atlys.com/blog/what-to-buy-in-thailand", "checkedAt": "2026-10-05", "verified": false },
-        { "price": 150, "venue": "market", "source": "Atlys「32 Things to Buy in Thailand」", "sourceUrl": "https://www.atlys.com/blog/what-to-buy-in-thailand", "checkedAt": "2026-10-05", "verified": false },
-        { "price": 250, "venue": "market", "source": "Atlys「32 Things to Buy in Thailand」", "sourceUrl": "https://www.atlys.com/blog/what-to-buy-in-thailand", "checkedAt": "2026-10-05", "verified": false },
-        { "price": 300, "venue": "market", "source": "ILP Blog「Shopping in Thailand」", "sourceUrl": "https://blog.ilp.org/shopping-in-thailand", "checkedAt": "2026-10-05", "verified": false }
+        {
+          "kind": "wholesale",
+          "price": 45,
+          "venue": "wholesale",
+          "source": "bobaebkk.com（卸売りの通販）",
+          "sourceUrl": "https://www.bobaebkk.com/17427003/",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "S 45 บาท〜XXL 70 บาท"
+        },
+        {
+          "kind": "wholesale",
+          "price": 70,
+          "venue": "wholesale",
+          "source": "bobaebkk.com（卸売りの通販）",
+          "sourceUrl": "https://www.bobaebkk.com/17427003/",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "S 45 บาท〜XXL 70 บาท"
+        },
+        {
+          "kind": "wholesale",
+          "price": 58,
+          "venue": "wholesale",
+          "source": "ASLASTSHOP（工場の卸）",
+          "sourceUrl": "https://www.aslastshop.com/",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "ราคาส่งเริ่มต้นตัวละ 58 บาท"
+        },
+        {
+          "kind": "wholesale",
+          "price": 68,
+          "venue": "wholesale",
+          "source": "ASLASTSHOP（工場の卸）",
+          "sourceUrl": "https://www.aslastshop.com/",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "รุ่นที่มีกระเป๋า 68 บาท"
+        },
+        {
+          "kind": "local",
+          "price": 36,
+          "venue": "online",
+          "source": "BigGo（タイの通販の価格比較）",
+          "sourceUrl": "https://biggo.co.th/s/%E0%B8%81%E0%B8%B2%E0%B8%87%E0%B9%80%E0%B8%81%E0%B8%87%E0%B8%A5%E0%B8%B2%E0%B8%A2%E0%B8%8A%E0%B9%89%E0%B8%B2%E0%B8%87/",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "฿36 ถึง ฿199",
+          "publishedAt": "2026-06"
+        },
+        {
+          "kind": "local",
+          "price": 199,
+          "venue": "online",
+          "source": "BigGo（タイの通販の価格比較）",
+          "sourceUrl": "https://biggo.co.th/s/%E0%B8%81%E0%B8%B2%E0%B8%87%E0%B9%80%E0%B8%81%E0%B8%87%E0%B8%A5%E0%B8%B2%E0%B8%A2%E0%B8%8A%E0%B9%89%E0%B8%B2%E0%B8%87/",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "฿36 ถึง ฿199",
+          "publishedAt": "2026-06"
+        },
+        {
+          "kind": "local",
+          "price": 150,
+          "venue": "online",
+          "source": "Shopee の商品（manyexp.com の価格履歴）",
+          "sourceUrl": "https://manyexp.com/lodlah/product?id=21219265671",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "ราคา 150 บาท"
+        },
+        {
+          "kind": "tourist-paid",
+          "price": 100,
+          "venue": "market",
+          "source": "Atlys「32 Things to Buy in Thailand」",
+          "sourceUrl": "https://www.atlys.com/blog/what-to-buy-in-thailand",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "from 100 THB, typically 150-250"
+        },
+        {
+          "kind": "tourist-paid",
+          "price": 150,
+          "venue": "market",
+          "source": "Atlys「32 Things to Buy in Thailand」",
+          "sourceUrl": "https://www.atlys.com/blog/what-to-buy-in-thailand",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "typically 150-250 Baht"
+        },
+        {
+          "kind": "tourist-paid",
+          "price": 250,
+          "venue": "market",
+          "source": "Atlys「32 Things to Buy in Thailand」",
+          "sourceUrl": "https://www.atlys.com/blog/what-to-buy-in-thailand",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "typically 150-250 Baht"
+        },
+        {
+          "kind": "tourist-paid",
+          "price": 100,
+          "venue": "market",
+          "source": "ILP Blog「Shopping in Thailand」",
+          "sourceUrl": "https://blog.ilp.org/shopping-in-thailand",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "100–300 TB"
+        },
+        {
+          "kind": "tourist-paid",
+          "price": 300,
+          "venue": "market",
+          "source": "ILP Blog「Shopping in Thailand」",
+          "sourceUrl": "https://blog.ilp.org/shopping-in-thailand",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "100–300 TB"
+        }
+      ]
+    },
+    {
+      "id": "muay-thai-shorts",
+      "name": "ムエタイパンツ",
+      "unit": "1枚",
+      "keywords": [
+        "ムエタイ",
+        "ボクシング",
+        "短パン",
+        "กางเกงมวย"
+      ],
+      "negotiable": true,
+      "observations": [
+        {
+          "kind": "wholesale",
+          "price": 330,
+          "venue": "wholesale",
+          "source": "検索結果の要約（nanagarden.com ほか）",
+          "sourceUrl": "https://www.nanagarden.com/product/255935",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "ราคาส่ง 330 บาท (S-XL)"
+        },
+        {
+          "kind": "wholesale",
+          "price": 240,
+          "venue": "wholesale",
+          "source": "検索結果の要約（nationmanthai.com ほか）",
+          "sourceUrl": "https://www.nationmanthai.com/boxing/thai-boxing-shorts",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "240–390 บาท"
+        },
+        {
+          "kind": "local",
+          "price": 400,
+          "venue": "price-tag",
+          "source": "Muay Thai Citizen（Boon Sport の店頭）",
+          "sourceUrl": "https://www.muaythaicitizen.com/where-to-buy-muay-thai-gear-in-bangkok/",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "plain black retro shorts 400 baht"
+        },
+        {
+          "kind": "local",
+          "price": 399,
+          "venue": "price-tag",
+          "source": "Muay Thai Citizen（FBT の店頭）",
+          "sourceUrl": "https://www.muaythaicitizen.com/where-to-buy-muay-thai-gear-in-bangkok/",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "IFMA shorts 399 THB"
+        },
+        {
+          "kind": "local",
+          "price": 600,
+          "venue": "price-tag",
+          "source": "Muay Thai Citizen（Super Export Shop）",
+          "sourceUrl": "https://www.muaythaicitizen.com/cheap-muay-thai-shorts/",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "Raja shorts 600 THB"
+        },
+        {
+          "kind": "tourist-paid",
+          "price": 300,
+          "venue": "market",
+          "source": "travelvui「Muay Thai Shorts」",
+          "sourceUrl": "https://www.travelvui.com/thailand/bangkok/muay-thai-shorts/",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "300 to 1,300 baht"
+        },
+        {
+          "kind": "tourist-paid",
+          "price": 1300,
+          "venue": "market",
+          "source": "travelvui「Muay Thai Shorts」",
+          "sourceUrl": "https://www.travelvui.com/thailand/bangkok/muay-thai-shorts/",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "300 to 1,300 baht"
+        }
       ]
     },
     {
       "id": "t-shirt",
-      "name": "Tシャツ",
+      "name": "Tシャツ（象柄・タイ柄）",
       "unit": "1枚",
-      "keywords": ["シャツ", "服"],
+      "keywords": [
+        "シャツ",
+        "Tシャツ",
+        "服",
+        "เสื้อยืด"
+      ],
       "negotiable": true,
       "observations": [
-        { "price": 50, "venue": "market", "source": "Atlys「32 Things to Buy in Thailand」", "sourceUrl": "https://www.atlys.com/blog/what-to-buy-in-thailand", "checkedAt": "2026-10-05", "verified": false },
-        { "price": 100, "venue": "market", "source": "That Bangkok Life「Cheap things to buy in Bangkok」", "sourceUrl": "https://www.thatbangkoklife.com/cheap-things-to-buy-in-bangkok/", "checkedAt": "2026-10-05", "verified": false },
-        { "price": 150, "venue": "market", "source": "CK Travels「Chatuchak Weekend Market」", "sourceUrl": "https://www.cktravels.com/chatuchak-weekend-market-bangkok-ultimate-guide/", "checkedAt": "2026-10-05", "verified": false },
-        { "price": 280, "venue": "market", "source": "CK Travels「Chatuchak Weekend Market」", "sourceUrl": "https://www.cktravels.com/chatuchak-weekend-market-bangkok-ultimate-guide/", "checkedAt": "2026-10-05", "verified": false }
+        {
+          "kind": "local",
+          "price": 95,
+          "venue": "online",
+          "source": "BigGo（タイの通販の価格比較）",
+          "sourceUrl": "https://biggo.co.th/s/%E0%B9%80%E0%B8%AA%E0%B8%B7%E0%B9%89%E0%B8%AD%E0%B8%9C%E0%B9%89%E0%B8%B2%E0%B9%84%E0%B8%97%E0%B8%A2%E0%B8%A5%E0%B8%B2%E0%B8%A2%E0%B8%8A%E0%B9%89%E0%B8%B2%E0%B8%87/",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "฿95 ถึง ฿169",
+          "publishedAt": "2025-02"
+        },
+        {
+          "kind": "local",
+          "price": 169,
+          "venue": "online",
+          "source": "BigGo（タイの通販の価格比較）",
+          "sourceUrl": "https://biggo.co.th/s/%E0%B9%80%E0%B8%AA%E0%B8%B7%E0%B9%89%E0%B8%AD%E0%B8%9C%E0%B9%89%E0%B8%B2%E0%B9%84%E0%B8%97%E0%B8%A2%E0%B8%A5%E0%B8%B2%E0%B8%A2%E0%B8%8A%E0%B9%89%E0%B8%B2%E0%B8%87/",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "฿95 ถึง ฿169",
+          "publishedAt": "2025-02"
+        },
+        {
+          "kind": "local",
+          "price": 155,
+          "venue": "online",
+          "source": "Priceza（タイの通販の価格比較）",
+          "sourceUrl": "https://www.priceza.com/s/%E0%B8%A3%E0%B8%B2%E0%B8%84%E0%B8%B2/%E0%B9%80%E0%B8%AA%E0%B8%B7%E0%B9%89%E0%B8%AD%E0%B8%A2%E0%B8%B7%E0%B8%94%E0%B8%8A%E0%B9%89%E0%B8%B2%E0%B8%87-%E0%B8%A5%E0%B8%B2%E0%B8%A2%E0%B9%84%E0%B8%97%E0%B8%A2",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "฿199 ลดเหลือ ฿155"
+        },
+        {
+          "kind": "tourist-paid",
+          "price": 50,
+          "venue": "chatuchak",
+          "source": "Atlys「32 Things to Buy in Thailand」",
+          "sourceUrl": "https://www.atlys.com/blog/what-to-buy-in-thailand",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "from 50 THB (quality isn't great)"
+        },
+        {
+          "kind": "tourist-paid",
+          "price": 150,
+          "venue": "chatuchak",
+          "source": "CK Travels「Chatuchak Weekend Market」",
+          "sourceUrl": "https://www.cktravels.com/chatuchak-weekend-market-bangkok-ultimate-guide/",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "cheap 150 Baht t-shirts"
+        },
+        {
+          "kind": "tourist-paid",
+          "price": 180,
+          "venue": "market",
+          "source": "Go Thai. Be Free（タイ国政府観光庁）",
+          "sourceUrl": "https://www.gothaibefree.com/tshirtsbangkok/",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "180 – 450 baht"
+        },
+        {
+          "kind": "tourist-paid",
+          "price": 450,
+          "venue": "market",
+          "source": "Go Thai. Be Free（タイ国政府観光庁）",
+          "sourceUrl": "https://www.gothaibefree.com/tshirtsbangkok/",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "180 – 450 baht"
+        }
+      ]
+    },
+    {
+      "id": "scarf",
+      "name": "スカーフ・ストール（シルク風）",
+      "unit": "1枚",
+      "keywords": [
+        "スカーフ",
+        "ストール",
+        "ショール",
+        "シルク",
+        "ผ้าพันคอ"
+      ],
+      "negotiable": true,
+      "note": "本物の手織りシルクは別物で、800〜1,500バーツ以上が目安です。",
+      "observations": [
+        {
+          "kind": "wholesale",
+          "price": 65,
+          "venue": "wholesale",
+          "source": "検索結果の要約（Facebook「Scarf100bath」ほか）",
+          "sourceUrl": "https://www.facebook.com/Scarf100bath/",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "เรทส่ง 65 บาท"
+        },
+        {
+          "kind": "wholesale",
+          "price": 100,
+          "venue": "wholesale",
+          "source": "Pantip（手作りの刺しゅう入り、卸）",
+          "sourceUrl": "https://pantip.com/topic/32063716",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "ขายผืนละ 100 บาท (ขายปลีก 150-199 บาท)"
+        },
+        {
+          "kind": "wholesale",
+          "price": 140,
+          "venue": "wholesale",
+          "source": "検索結果の要約（草木染め、10枚以上の卸）",
+          "sourceUrl": "https://pantip.com/topic/34196060",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "ราคาส่ง 10 ผืนขึ้นไป 140 บาท"
+        },
+        {
+          "kind": "local",
+          "price": 150,
+          "venue": "price-tag",
+          "source": "Pantip（同じ品の店頭価格）",
+          "sourceUrl": "https://pantip.com/topic/32063716",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "ขายปลีกในหน้าร้าน 150-199 บาท"
+        },
+        {
+          "kind": "local",
+          "price": 199,
+          "venue": "price-tag",
+          "source": "Pantip（同じ品の店頭価格）",
+          "sourceUrl": "https://pantip.com/topic/32063716",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "ขายปลีกในหน้าร้าน 150-199 บาท"
+        },
+        {
+          "kind": "local",
+          "price": 180,
+          "venue": "price-tag",
+          "source": "検索結果の要約（草木染め、小売）",
+          "sourceUrl": "https://pantip.com/topic/34196060",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "ราคาปลีก 180 บาท"
+        },
+        {
+          "kind": "tourist-paid",
+          "price": 200,
+          "venue": "market",
+          "source": "The Longest Way Home「How to Bargain for Souvenirs」",
+          "sourceUrl": "https://www.thelongestwayhome.com/travel-guides/thailand/how-to-bargain-for-souvenirs-deals-thailand.html",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "starting at 500 baht can drop to 200"
+        },
+        {
+          "kind": "tourist-asked",
+          "price": 500,
+          "venue": "market",
+          "source": "The Longest Way Home「How to Bargain for Souvenirs」",
+          "sourceUrl": "https://www.thelongestwayhome.com/travel-guides/thailand/how-to-bargain-for-souvenirs-deals-thailand.html",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "starting at 500 baht"
+        }
       ]
     },
     {
       "id": "keychain",
-      "name": "キーホルダー・マグネット",
+      "name": "キーホルダー（象など）",
       "unit": "1個",
-      "keywords": ["キーホルダー", "マグネット", "小物"],
+      "keywords": [
+        "キーホルダー",
+        "小物",
+        "象",
+        "พวงกุญแจ"
+      ],
       "negotiable": true,
       "observations": [
-        { "price": 10, "venue": "market", "source": "The Longest Way Home「How to Bargain for Souvenirs in Thailand」", "sourceUrl": "https://www.thelongestwayhome.com/travel-guides/thailand/how-to-bargain-for-souvenirs-deals-thailand.html", "checkedAt": "2026-10-05", "verified": false },
-        { "price": 20, "venue": "market", "source": "The Longest Way Home「How to Bargain for Souvenirs in Thailand」", "sourceUrl": "https://www.thelongestwayhome.com/travel-guides/thailand/how-to-bargain-for-souvenirs-deals-thailand.html", "checkedAt": "2026-10-05", "verified": false },
-        { "price": 20, "venue": "market", "source": "That Bangkok Life「Cheap things to buy in Bangkok」", "sourceUrl": "https://www.thatbangkoklife.com/cheap-things-to-buy-in-bangkok/", "checkedAt": "2026-10-05", "verified": false },
-        { "price": 50, "venue": "market", "source": "ILP Blog「Shopping in Thailand」", "sourceUrl": "https://blog.ilp.org/shopping-in-thailand", "checkedAt": "2026-10-05", "verified": false }
+        {
+          "kind": "local",
+          "price": 20,
+          "venue": "online",
+          "source": "Priceza（タイの通販、6個入り120バーツ）",
+          "sourceUrl": "https://www.priceza.com/s/%E0%B8%A3%E0%B8%B2%E0%B8%84%E0%B8%B2/%E0%B8%9E%E0%B8%A7%E0%B8%87%E0%B8%81%E0%B8%B8%E0%B8%8D%E0%B9%81%E0%B8%88%E0%B8%8A%E0%B9%89%E0%B8%B2%E0%B8%87%E0%B9%84%E0%B8%97%E0%B8%A2",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "แพ็ค 6 ชิ้น 120 บาท"
+        },
+        {
+          "kind": "local",
+          "price": 25,
+          "venue": "online",
+          "source": "Priceza（タイの通販、6個入り150バーツ）",
+          "sourceUrl": "https://www.priceza.com/s/%E0%B8%A3%E0%B8%B2%E0%B8%84%E0%B8%B2/%E0%B8%9E%E0%B8%A7%E0%B8%87%E0%B8%81%E0%B8%B8%E0%B8%8D%E0%B9%81%E0%B8%88%E0%B8%8A%E0%B9%89%E0%B8%B2%E0%B8%87%E0%B9%84%E0%B8%97%E0%B8%A2",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "แพ็ค 6 ชิ้น 150 บาท"
+        },
+        {
+          "kind": "tourist-paid",
+          "price": 10,
+          "venue": "market",
+          "source": "The Longest Way Home「How to Bargain for Souvenirs」",
+          "sourceUrl": "https://www.thelongestwayhome.com/travel-guides/thailand/how-to-bargain-for-souvenirs-deals-thailand.html",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "20 baht can hit 10 if you buy a few"
+        },
+        {
+          "kind": "tourist-paid",
+          "price": 20,
+          "venue": "market",
+          "source": "That Bangkok Life「Cheap things to buy in Bangkok」",
+          "sourceUrl": "https://www.thatbangkoklife.com/cheap-things-to-buy-in-bangkok/",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "5 keychains for 100 baht"
+        },
+        {
+          "kind": "tourist-asked",
+          "price": 20,
+          "venue": "market",
+          "source": "The Longest Way Home「How to Bargain for Souvenirs」",
+          "sourceUrl": "https://www.thelongestwayhome.com/travel-guides/thailand/how-to-bargain-for-souvenirs-deals-thailand.html",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "20 baht"
+        },
+        {
+          "kind": "tourist-asked",
+          "price": 50,
+          "venue": "market",
+          "source": "ILP Blog「Shopping in Thailand」",
+          "sourceUrl": "https://blog.ilp.org/shopping-in-thailand",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "start at 50 TB"
+        }
       ]
     },
     {
-      "id": "silk-scarf",
-      "name": "シルクのスカーフ",
-      "unit": "1枚",
-      "keywords": ["スカーフ", "ストール", "シルク"],
+      "id": "magnet",
+      "name": "マグネット",
+      "unit": "1個",
+      "keywords": [
+        "マグネット",
+        "磁石",
+        "小物",
+        "แม่เหล็ก"
+      ],
       "negotiable": true,
       "observations": [
-        { "price": 200, "venue": "market", "source": "The Longest Way Home「How to Bargain for Souvenirs in Thailand」", "sourceUrl": "https://www.thelongestwayhome.com/travel-guides/thailand/how-to-bargain-for-souvenirs-deals-thailand.html", "checkedAt": "2026-10-05", "verified": false },
-        { "price": 800, "venue": "market", "source": "Trip.com「What to Buy in Bangkok」", "sourceUrl": "https://sg.trip.com/guide/shopping/what-to-buy-in-bangkok.html", "checkedAt": "2026-10-05", "verified": false },
-        { "price": 1500, "venue": "market", "source": "Trip.com「What to Buy in Bangkok」", "sourceUrl": "https://sg.trip.com/guide/shopping/what-to-buy-in-bangkok.html", "checkedAt": "2026-10-05", "verified": false }
+        {
+          "kind": "tourist-paid",
+          "price": 25,
+          "venue": "market",
+          "source": "That Bangkok Life「Cheap things to buy in Bangkok」",
+          "sourceUrl": "https://www.thatbangkoklife.com/cheap-things-to-buy-in-bangkok/",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "4 fridge magnets for 100 baht"
+        },
+        {
+          "kind": "tourist-paid",
+          "price": 10,
+          "venue": "market",
+          "source": "The Longest Way Home「How to Bargain for Souvenirs」",
+          "sourceUrl": "https://www.thelongestwayhome.com/travel-guides/thailand/how-to-bargain-for-souvenirs-deals-thailand.html",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "20 baht can hit 10"
+        }
       ]
     },
     {
       "id": "wood-carving",
-      "name": "木彫りの置物（小）",
+      "name": "木彫りの象（手のひらサイズ）",
       "unit": "1個",
-      "keywords": ["木彫り", "置物", "ゾウ"],
+      "keywords": [
+        "木彫り",
+        "置物",
+        "象",
+        "ゾウ",
+        "ช้างไม้"
+      ],
+      "negotiable": true,
+      "note": "チーク材の大きな置物（15cm以上）は700〜2,000バーツ以上と別の価格帯です。",
+      "observations": [
+        {
+          "kind": "local",
+          "price": 150,
+          "venue": "online",
+          "source": "siampresent.com（記念品の通販）",
+          "sourceUrl": "http://www.siampresent.com/product/2074/",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "ราคา 150 บาท (ขั้นต่ำ 30 ชิ้น)"
+        },
+        {
+          "kind": "tourist-paid",
+          "price": 100,
+          "venue": "market",
+          "source": "The Longest Way Home「How to Bargain for Souvenirs」",
+          "sourceUrl": "https://www.thelongestwayhome.com/travel-guides/thailand/how-to-bargain-for-souvenirs-deals-thailand.html",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "aim for 100 to 150"
+        },
+        {
+          "kind": "tourist-paid",
+          "price": 150,
+          "venue": "market",
+          "source": "The Longest Way Home「How to Bargain for Souvenirs」",
+          "sourceUrl": "https://www.thelongestwayhome.com/travel-guides/thailand/how-to-bargain-for-souvenirs-deals-thailand.html",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "aim for 100 to 150"
+        },
+        {
+          "kind": "tourist-asked",
+          "price": 300,
+          "venue": "market",
+          "source": "The Longest Way Home「How to Bargain for Souvenirs」",
+          "sourceUrl": "https://www.thelongestwayhome.com/travel-guides/thailand/how-to-bargain-for-souvenirs-deals-thailand.html",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "often start at 300 baht"
+        }
+      ]
+    },
+    {
+      "id": "soap",
+      "name": "ソープフラワー（花の形の石けん）",
+      "unit": "1個",
+      "keywords": [
+        "石けん",
+        "石鹸",
+        "ソープ",
+        "せっけん",
+        "ソープフラワー",
+        "สบู่"
+      ],
       "negotiable": true,
       "observations": [
-        { "price": 100, "venue": "market", "source": "The Longest Way Home「How to Bargain for Souvenirs in Thailand」", "sourceUrl": "https://www.thelongestwayhome.com/travel-guides/thailand/how-to-bargain-for-souvenirs-deals-thailand.html", "checkedAt": "2026-10-05", "verified": false },
-        { "price": 150, "venue": "market", "source": "The Longest Way Home「How to Bargain for Souvenirs in Thailand」", "sourceUrl": "https://www.thelongestwayhome.com/travel-guides/thailand/how-to-bargain-for-souvenirs-deals-thailand.html", "checkedAt": "2026-10-05", "verified": false }
+        {
+          "kind": "tourist-paid",
+          "price": 33,
+          "venue": "chatuchak",
+          "source": "検索結果の要約（チャトゥチャック、3個100バーツ）",
+          "sourceUrl": "https://www.chatuchakmarket.org/top-products-to-buy-at-chatuchak-market/",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "3 pieces for 100 baht"
+        },
+        {
+          "kind": "tourist-paid",
+          "price": 35,
+          "venue": "chatuchak",
+          "source": "検索結果の要約（30〜40バーツ）",
+          "sourceUrl": "https://thaiest.com/blog/souvenirs-and-gifts-to-buy-in-thailand",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "30-40 Baht"
+        }
+      ],
+      "note": "ブランドのハーブ石けん（1個70バーツ前後）は別の価格帯です。"
+    },
+    {
+      "id": "woven-bag",
+      "name": "かごバッグ（クラジュート・ラタン）",
+      "unit": "1個",
+      "keywords": [
+        "かご",
+        "カゴ",
+        "バッグ",
+        "ラタン",
+        "籐",
+        "กระเป๋าสาน",
+        "กระจูด"
+      ],
+      "negotiable": true,
+      "observations": [
+        {
+          "kind": "wholesale",
+          "price": 120,
+          "venue": "wholesale",
+          "source": "Priceza（タイの通販、卸値）",
+          "sourceUrl": "https://www.priceza.com/s/%E0%B8%A3%E0%B8%B2%E0%B8%84%E0%B8%B2/%E0%B8%81%E0%B8%A3%E0%B8%B0%E0%B9%80%E0%B8%9B%E0%B9%8B%E0%B8%B2%E0%B8%AA%E0%B8%B2%E0%B8%99%E0%B8%81%E0%B8%A3%E0%B8%B0%E0%B8%88%E0%B8%B9%E0%B8%94",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "ราคาส่ง 120-290 บาท"
+        },
+        {
+          "kind": "local",
+          "price": 135,
+          "venue": "online",
+          "source": "Lazada（Priceza 経由）",
+          "sourceUrl": "https://www.priceza.com/s/%E0%B8%A3%E0%B8%B2%E0%B8%84%E0%B8%B2/%E0%B8%81%E0%B8%A3%E0%B8%B0%E0%B9%80%E0%B8%9B%E0%B9%8B%E0%B8%B2-%E0%B8%AA%E0%B8%B0%E0%B8%9E%E0%B8%B2%E0%B8%A2-%E0%B8%81%E0%B8%A3%E0%B8%B0%E0%B8%88%E0%B8%B9%E0%B8%94-%E0%B8%AA%E0%B8%B2%E0%B8%99",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "135-239 บาท"
+        },
+        {
+          "kind": "local",
+          "price": 239,
+          "venue": "online",
+          "source": "Lazada（Priceza 経由）",
+          "sourceUrl": "https://www.priceza.com/s/%E0%B8%A3%E0%B8%B2%E0%B8%84%E0%B8%B2/%E0%B8%81%E0%B8%A3%E0%B8%B0%E0%B9%80%E0%B8%9B%E0%B9%8B%E0%B8%B2-%E0%B8%AA%E0%B8%B0%E0%B8%9E%E0%B8%B2%E0%B8%A2-%E0%B8%81%E0%B8%A3%E0%B8%B0%E0%B8%88%E0%B8%B9%E0%B8%94-%E0%B8%AA%E0%B8%B2%E0%B8%99",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "135-239 บาท"
+        },
+        {
+          "kind": "tourist-paid",
+          "price": 250,
+          "venue": "chatuchak",
+          "source": "検索結果の要約（チャトゥチャックの手作りラタン）",
+          "sourceUrl": "https://thailand.tripcanvas.co/bangkok/chatuchak-shopping-guide/",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "250–500 baht"
+        },
+        {
+          "kind": "tourist-paid",
+          "price": 500,
+          "venue": "chatuchak",
+          "source": "検索結果の要約（チャトゥチャックの手作りラタン）",
+          "sourceUrl": "https://thailand.tripcanvas.co/bangkok/chatuchak-shopping-guide/",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "250–500 baht"
+        }
+      ]
+    },
+    {
+      "id": "brand-style-bag",
+      "name": "ブランド風のバッグ（ノーブランド）",
+      "unit": "1個",
+      "keywords": [
+        "バッグ",
+        "かばん",
+        "カバン",
+        "鞄",
+        "ブランド",
+        "กระเป๋า"
+      ],
+      "negotiable": true,
+      "note": "ロゴや商標を使わない「ブランド風（ノーブランド）」の品だけを対象にしています。偽ブランド品の販売はタイでは違法で、日本に持ち帰ると税関で没収されることがあります。",
+      "observations": [
+        {
+          "kind": "wholesale",
+          "price": 120,
+          "venue": "wholesale",
+          "source": "検索結果の要約（ファッションバッグの卸、24個以上）",
+          "sourceUrl": "https://www.nanagarden.com/subcat/25007",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "ราคาเริ่มต้นที่ใบละ 120 บาท ราคาส่งขั้นต่ำ 24 ใบ"
+        },
+        {
+          "kind": "tourist-paid",
+          "price": 199,
+          "venue": "chatuchak",
+          "source": "検索結果の要約（チャトゥチャックの露店）",
+          "sourceUrl": "https://tastythailand.com/best-places-to-buy-cheap-handbags-and-purses-in-bangkok-thailand/",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "various bags for 199 baht"
+        },
+        {
+          "kind": "tourist-asked",
+          "price": 300,
+          "venue": "chatuchak",
+          "source": "検索結果の要約（デザイナー風バッグ）",
+          "sourceUrl": "https://tastythailand.com/best-places-to-buy-cheap-handbags-and-purses-in-bangkok-thailand/",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "Designer-inspired handbags start from 300 baht"
+        }
+      ]
+    },
+    {
+      "id": "brand-style-wallet",
+      "name": "ブランド風の財布（ノーブランド）",
+      "unit": "1個",
+      "keywords": [
+        "財布",
+        "さいふ",
+        "サイフ",
+        "ブランド",
+        "กระเป๋าสตางค์"
+      ],
+      "negotiable": true,
+      "note": "ロゴや商標を使わない「ブランド風（ノーブランド）」の品だけを対象にしています。偽ブランド品の販売はタイでは違法で、日本に持ち帰ると税関で没収されることがあります。",
+      "observations": []
+    },
+    {
+      "id": "brand-style-watch",
+      "name": "ブランド風の腕時計（ノーブランド）",
+      "unit": "1個",
+      "keywords": [
+        "時計",
+        "腕時計",
+        "とけい",
+        "ブランド",
+        "นาฬิกา"
+      ],
+      "negotiable": true,
+      "note": "ロゴや商標を使わない「ブランド風（ノーブランド）」の品だけを対象にしています。偽ブランド品の販売はタイでは違法で、日本に持ち帰ると税関で没収されることがあります。",
+      "observations": [
+        {
+          "kind": "wholesale",
+          "price": 30,
+          "venue": "wholesale",
+          "source": "ร้านเที่ยงตรง by สำเพ็ง（サンペンの卸、10個以上）",
+          "sourceUrl": "https://www.tiengtrongbysampeng.com/",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "เริ่มต้น 30 บาท ต่อเรือน ขั้นต่ำ 10 เรือน"
+        },
+        {
+          "kind": "wholesale",
+          "price": 100,
+          "venue": "wholesale",
+          "source": "検索結果の要約（jjnwatch、卸）",
+          "sourceUrl": "https://www.smeleader.com/",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "เริ่มต้น 100 บาท"
+        },
+        {
+          "kind": "tourist-paid",
+          "price": 150,
+          "venue": "chatuchak",
+          "source": "検索結果の要約（チャトゥチャック）",
+          "sourceUrl": "https://www.laughtraveleat.com/asia/chatuchak-market-guide-bangkok/",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "Watches for 150 baht"
+        }
+      ]
+    },
+    {
+      "id": "brand-style-sneakers",
+      "name": "ブランド風のスニーカー（ノーブランド）",
+      "unit": "1足",
+      "keywords": [
+        "スニーカー",
+        "靴",
+        "くつ",
+        "ブランド",
+        "รองเท้า"
+      ],
+      "negotiable": true,
+      "note": "ロゴや商標を使わない「ブランド風（ノーブランド）」の品だけを対象にしています。偽ブランド品の販売はタイでは違法で、日本に持ち帰ると税関で没収されることがあります。",
+      "observations": []
+    },
+    {
+      "id": "sunglasses",
+      "name": "サングラス（ノーブランド）",
+      "unit": "1個",
+      "keywords": [
+        "サングラス",
+        "めがね",
+        "メガネ",
+        "แว่น"
+      ],
+      "negotiable": true,
+      "note": "ロゴや商標を使わない「ブランド風（ノーブランド）」の品だけを対象にしています。偽ブランド品の販売はタイでは違法で、日本に持ち帰ると税関で没収されることがあります。",
+      "observations": [
+        {
+          "kind": "wholesale",
+          "price": 24,
+          "venue": "wholesale",
+          "source": "22แว่นขายส่งจากสำเพ็ง（サンペンの卸）",
+          "sourceUrl": "https://www.lensdee.com/",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "24 บาท"
+        },
+        {
+          "kind": "wholesale",
+          "price": 25,
+          "venue": "wholesale",
+          "source": "22แว่นขายส่งจากสำเพ็ง（サンペンの卸）",
+          "sourceUrl": "https://www.lensdee.com/",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "25 บาท"
+        },
+        {
+          "kind": "wholesale",
+          "price": 44,
+          "venue": "wholesale",
+          "source": "22แว่นขายส่งจากสำเพ็ง（サンペンの卸）",
+          "sourceUrl": "https://www.lensdee.com/",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "44 บาท"
+        },
+        {
+          "kind": "local",
+          "price": 89,
+          "venue": "online",
+          "source": "Priceza（タイの通販の価格比較）",
+          "sourceUrl": "https://www.priceza.com/s/%E0%B8%A3%E0%B8%B2%E0%B8%84%E0%B8%B2/%E0%B9%81%E0%B8%A7%E0%B9%88%E0%B8%99%E0%B8%81%E0%B8%B1%E0%B8%99%E0%B9%81%E0%B8%94%E0%B8%94%E0%B9%81%E0%B8%9F%E0%B8%8A%E0%B8%B1%E0%B9%88%E0%B8%99-%E0%B8%9E%E0%B8%A3%E0%B9%89%E0%B8%AD%E0%B8%A1%E0%B8%AA%E0%B9%88%E0%B8%87",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "89 บาท ถึง 250 บาท"
+        },
+        {
+          "kind": "local",
+          "price": 250,
+          "venue": "online",
+          "source": "Priceza（タイの通販の価格比較）",
+          "sourceUrl": "https://www.priceza.com/s/%E0%B8%A3%E0%B8%B2%E0%B8%84%E0%B8%B2/%E0%B9%81%E0%B8%A7%E0%B9%88%E0%B8%99%E0%B8%81%E0%B8%B1%E0%B8%99%E0%B9%81%E0%B8%94%E0%B8%94%E0%B9%81%E0%B8%9F%E0%B8%8A%E0%B8%B1%E0%B9%88%E0%B8%99-%E0%B8%9E%E0%B8%A3%E0%B9%89%E0%B8%AD%E0%B8%A1%E0%B8%AA%E0%B9%88%E0%B8%87",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "89 บาท ถึง 250 บาท"
+        },
+        {
+          "kind": "tourist-paid",
+          "price": 50,
+          "venue": "tourist-street",
+          "source": "khaosanroad.com「Shopping Guide」",
+          "sourceUrl": "https://www.khaosanroad.com/articles/khao-san-road-shopping-guide",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "50-150 THB"
+        },
+        {
+          "kind": "tourist-paid",
+          "price": 150,
+          "venue": "tourist-street",
+          "source": "khaosanroad.com「Shopping Guide」",
+          "sourceUrl": "https://www.khaosanroad.com/articles/khao-san-road-shopping-guide",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "50-150 THB"
+        },
+        {
+          "kind": "tourist-paid",
+          "price": 100,
+          "venue": "tourist-street",
+          "source": "khaosanroad.com「Things to Do」",
+          "sourceUrl": "https://www.khaosanroad.com/articles/things-to-do-khao-san-road",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "100–200 THB"
+        },
+        {
+          "kind": "tourist-paid",
+          "price": 200,
+          "venue": "tourist-street",
+          "source": "khaosanroad.com「Things to Do」",
+          "sourceUrl": "https://www.khaosanroad.com/articles/things-to-do-khao-san-road",
+          "checkedAt": "2026-10-05",
+          "verified": false,
+          "quote": "100–200 THB"
+        }
       ]
     }
   ]

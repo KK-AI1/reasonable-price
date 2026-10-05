@@ -7,7 +7,7 @@ import { UnverifiedBadge } from '../../components/UnverifiedBadge'
 import { VerdictBadge } from '../../components/VerdictBadge'
 import { bangkokItems, bangkokPriceConfig, bangkokVenues } from '../../lib/city'
 import { estimatePrice, judgePrice } from '../../lib/price'
-import type { Item, PriceRange, Verdict } from '../../lib/types'
+import type { Item, ObservationKind, PriceRange, Verdict } from '../../lib/types'
 
 export interface CoachStart {
   item: Item
@@ -24,8 +24,23 @@ const verdictMessage: Record<Verdict, string> = {
   high: 'かなり高めです。落ち着いて交渉しましょう。',
 }
 
-export function PriceCheck({ onBack, onStartCoach }: { onBack: () => void; onStartCoach: (s: CoachStart) => void }) {
-  const [itemId, setItemId] = useState(bangkokItems[0].id)
+const kindLabels: { kind: ObservationKind; label: string }[] = [
+  { kind: 'wholesale', label: '卸値' },
+  { kind: 'local', label: 'タイ国内の小売' },
+  { kind: 'tourist-paid', label: '旅行者が払った額' },
+  { kind: 'tourist-asked', label: '最初の言い値' },
+]
+
+export function PriceCheck({
+  onBack,
+  onStartCoach,
+  initialItemId,
+}: {
+  onBack: () => void
+  onStartCoach: (s: CoachStart) => void
+  initialItemId?: string
+}) {
+  const [itemId, setItemId] = useState(initialItemId ?? bangkokItems[0].id)
   const [venueId, setVenueId] = useState('market')
   const [quantity, setQuantity] = useState(1)
   const [ask, setAsk] = useState('')
@@ -54,7 +69,7 @@ export function PriceCheck({ onBack, onStartCoach }: { onBack: () => void; onSta
         ) : estimate.status === 'insufficient' ? (
           <section aria-label="結果" className="rounded-card border border-border bg-surface p-4">
             <h2 className="text-heading">データ不足</h2>
-            <p className="text-body text-text-sub">この品目は価格のデータが足りず、目安を出せません。</p>
+            <p className="text-body text-text-sub">この品目は価格の情報が足りず、目安を出せません。情報を集めているところです。</p>
           </section>
         ) : (
           <section aria-label="結果" className="flex flex-col gap-3 rounded-card border border-border bg-surface p-4 shadow-card">
@@ -72,6 +87,9 @@ export function PriceCheck({ onBack, onStartCoach }: { onBack: () => void; onSta
             {estimate.status === 'few' && (
               <p className="text-caption text-text-sub">データが少ない目安です（{estimate.count}件）。</p>
             )}
+            <p className="text-body text-text-sub">
+              最初の言い値は {estimate.predictedAsk.toLocaleString('ja-JP')} バーツくらいかもしれません。
+            </p>
             {verdict && (
               <div className="flex flex-col gap-1">
                 <VerdictBadge verdict={verdict} />
@@ -79,7 +97,11 @@ export function PriceCheck({ onBack, onStartCoach }: { onBack: () => void; onSta
               </div>
             )}
             <details className="text-caption text-text-sub">
-              <summary className="flex min-h-tap cursor-pointer items-center text-body text-brand">出典を見る</summary>
+              <summary className="flex min-h-tap cursor-pointer items-center text-body text-brand">根拠と出典を見る</summary>
+              <p className="mb-2">
+                {kindLabels.map(({ kind, label }) => `${label} ${estimate.counts[kind]}件`).join('・')}
+                。目安はタイ国内の小売価格を中心に、卸値（売り手の利益を残す）と旅行者が払った額で幅を決めています。
+              </p>
               <ul className="flex flex-col gap-1">
                 {estimate.sources.map((s) => (
                   <li key={s.source}>
@@ -90,7 +112,7 @@ export function PriceCheck({ onBack, onStartCoach }: { onBack: () => void; onSta
                     ) : (
                       s.source
                     )}
-                    （{s.checkedAt} 確認）
+                    （{kindLabels.find((k) => k.kind === s.kind)?.label}・{s.checkedAt} 確認）
                   </li>
                 ))}
               </ul>
@@ -98,26 +120,23 @@ export function PriceCheck({ onBack, onStartCoach }: { onBack: () => void; onSta
           </section>
         )}
 
+        {item.note && <p className="rounded-card border border-border bg-surface p-4 text-body text-text-sub">{item.note}</p>}
+
         <section aria-label="条件" className="flex flex-col gap-4 rounded-card border border-border bg-surface p-4">
-          <fieldset className="flex flex-col gap-1">
-            <legend className="mb-1 text-label text-text-sub">品目</legend>
-            <div className="grid grid-cols-2 gap-2">
-              {bangkokItems.map((i) => {
-                const selected = i.id === itemId
-                return (
-                  <button
-                    key={i.id}
-                    type="button"
-                    aria-pressed={selected}
-                    onClick={() => setItemId(i.id)}
-                    className={`min-h-tap rounded-button border px-2 text-body ${selected ? 'border-brand bg-brand-soft text-brand' : 'border-border bg-surface'}`}
-                  >
-                    {i.name}
-                  </button>
-                )
-              })}
-            </div>
-          </fieldset>
+          <label className="flex flex-col gap-1">
+            <span className="text-label text-text-sub">品目</span>
+            <select
+              value={itemId}
+              onChange={(e) => setItemId(e.target.value)}
+              className="min-h-tap rounded-button border border-border bg-surface px-3 text-body"
+            >
+              {bangkokItems.map((i) => (
+                <option key={i.id} value={i.id}>
+                  {i.name}
+                </option>
+              ))}
+            </select>
+          </label>
 
           <label className="flex flex-col gap-1">
             <span className="text-label text-text-sub">売り場の種類</span>

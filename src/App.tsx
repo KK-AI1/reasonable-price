@@ -3,14 +3,14 @@ import { ComingSoon } from './components/ComingSoon'
 import { FareCheck } from './features/fare-check/FareCheck'
 import { Home, type Screen } from './features/home/Home'
 import { PriceCheck } from './features/price-check/PriceCheck'
+import { Search } from './features/search/Search'
 import { ExchangeRateContext, useLatestExchangeRate } from './lib/useExchangeRate'
 
-const comingSoonTitles: Record<Exclude<Screen, 'home' | 'fare-check' | 'price-check'>, string> = {
+const comingSoonTitles: Record<Exclude<Screen, 'home' | 'fare-check' | 'price-check' | 'search'>, string> = {
   tuktuk: 'トゥクトゥク',
   coach: '交渉コーチ',
   phrases: 'フレーズ帳',
   'no-haggle': '交渉しない場所',
-  search: '品目検索',
   history: '履歴',
   settings: '設定',
 }
@@ -18,6 +18,7 @@ const comingSoonTitles: Record<Exclude<Screen, 'home' | 'fare-check' | 'price-ch
 export default function App() {
   const [screen, setScreen] = useState<Screen>('home')
   const goHome = () => setScreen('home')
+  const [itemId, setItemId] = useState<string | undefined>(undefined)
   const rate = useLatestExchangeRate()
 
   return (
@@ -26,9 +27,18 @@ export default function App() {
         {screen === 'home' && <Home onOpen={setScreen} />}
         {screen === 'fare-check' && <FareCheck onBack={goHome} />}
         {screen === 'price-check' && (
-          <PriceCheck onBack={goHome} onStartCoach={() => setScreen('coach')} />
+          <PriceCheck key={itemId} initialItemId={itemId} onBack={goHome} onStartCoach={() => setScreen('coach')} />
         )}
-        {screen !== 'home' && screen !== 'fare-check' && screen !== 'price-check' && (
+        {screen === 'search' && (
+          <Search
+            onBack={goHome}
+            onSelect={(id) => {
+              setItemId(id)
+              setScreen('price-check')
+            }}
+          />
+        )}
+        {screen !== 'home' && screen !== 'fare-check' && screen !== 'price-check' && screen !== 'search' && (
           <ComingSoon title={comingSoonTitles[screen]} onBack={goHome} />
         )}
       </main>

@@ -95,11 +95,21 @@ export type CoachMove =
   /** お礼を言って立ち去る */
   | { action: 'walk-away'; amount: number }
 
+/** 情報源の種類（docs/SPEC.md §3.1） */
+export type ObservationKind = 'wholesale' | 'local' | 'tourist-paid' | 'tourist-asked'
+
 export interface PriceObservation {
+  kind: ObservationKind
+  /** 1つあたりのバーツ */
   price: number
+  /** 売り場の id。通販・卸は 'online' / 'wholesale'（係数 1.0 扱い） */
   venue: string
+  /** 原文（値段の書かれ方） */
+  quote?: string
   source: string
   sourceUrl?: string
+  /** 情報が書かれた時期（YYYY または YYYY-MM） */
+  publishedAt?: string
   checkedAt: string
   verified: boolean
 }
@@ -110,6 +120,8 @@ export interface Item {
   unit: string
   keywords: string[]
   negotiable: boolean
+  /** 画面に出す補足（ブランド風の注意など） */
+  note?: string
   observations: PriceObservation[]
 }
 
@@ -121,11 +133,18 @@ export interface Venue {
 }
 
 export interface PriceConfig {
-  minObservationsForQuantiles: number
-  minObservationsForRange: number
+  minObservations: number
+  minObservationsForFull: number
+  minKindsForFull: number
+  defaultRetailMarkup: number
+  minSellerMargin: number
+  lowRatioWithoutData: number
+  minLimitRatio: number
+  limitRatioWithoutTourist: number
   quantityTiers: { minQty: number; factor: number }[]
   verdictHighRatio: number
   askMarkup: number
+  staleAfterDays: number
 }
 
 export type PriceEstimate =
@@ -139,6 +158,10 @@ export type PriceEstimate =
       total: PriceRange
       quantity: number
       count: number
+      /** 種類ごとの件数 */
+      counts: Record<ObservationKind, number>
+      /** 売り手の最初の言い値の予測（合計） */
+      predictedAsk: number
       verified: boolean
-      sources: { source: string; sourceUrl?: string; checkedAt: string }[]
+      sources: { source: string; sourceUrl?: string; checkedAt: string; kind: ObservationKind }[]
     }
