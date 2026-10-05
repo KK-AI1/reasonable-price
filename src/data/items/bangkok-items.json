@@ -4,7 +4,7 @@
   "items": [
     {
       "id": "elephant-pants",
-      "name": "象柄のパンツ（タイパンツ）",
+      "name": "象柄のパンツ",
       "unit": "1枚",
       "keywords": [
         "タイパンツ",
@@ -178,11 +178,13 @@
           "verified": false,
           "quote": "100-199 baht at markets"
         }
-      ]
+      ],
+      "category": "clothing",
+      "spec": "薄手・一般的な生地"
     },
     {
       "id": "t-shirt",
-      "name": "Tシャツ（象柄・タイ柄）",
+      "name": "Tシャツ（タイ柄）",
       "unit": "1枚",
       "keywords": [
         "シャツ",
@@ -334,7 +336,9 @@
           "verified": false,
           "quote": "as low as 50 THB per piece when buying three or more"
         }
-      ]
+      ],
+      "category": "clothing",
+      "spec": "綿・半袖・プリント柄"
     },
     {
       "id": "muay-thai-shorts",
@@ -418,7 +422,9 @@
           "verified": false,
           "quote": "300 to 1,300 baht"
         }
-      ]
+      ],
+      "category": "clothing",
+      "spec": "サテン生地・ショート丈"
     },
     {
       "id": "elephant-dress",
@@ -493,11 +499,13 @@
           "verified": false,
           "quote": "dresses 150 THB"
         }
-      ]
+      ],
+      "category": "clothing",
+      "spec": "レーヨン（スパン）・ワンピース"
     },
     {
       "id": "bucket-hat",
-      "name": "バケットハット（ノーブランド）",
+      "name": "バケットハット",
       "unit": "1個",
       "keywords": [
         "帽子",
@@ -537,7 +545,9 @@
           "verified": false,
           "quote": "ราคาขายปลีก 128 บาท"
         }
-      ]
+      ],
+      "category": "clothing",
+      "spec": "布・無地または柄"
     },
     {
       "id": "nanyang-sandals",
@@ -573,11 +583,13 @@
           "verified": false,
           "quote": "89 บาท"
         }
-      ]
+      ],
+      "category": "clothing",
+      "spec": "ゴム製・定番モデル"
     },
     {
       "id": "scarf",
-      "name": "スカーフ・ストール（シルク風）",
+      "name": "スカーフ（シルク風）",
       "unit": "1枚",
       "keywords": [
         "スカーフ",
@@ -669,11 +681,13 @@
           "verified": false,
           "quote": "starting at 500 baht"
         }
-      ]
+      ],
+      "category": "goods",
+      "spec": "化繊のシルク風・約80×150cm"
     },
     {
       "id": "silk-scarf-real",
-      "name": "タイシルクのスカーフ（本物・手織り）",
+      "name": "タイシルクのスカーフ",
       "unit": "1枚",
       "keywords": [
         "シルク",
@@ -735,11 +749,13 @@
           "verified": false,
           "quote": "handmade silk shawls ฿800 to ฿1,500"
         }
-      ]
+      ],
+      "category": "goods",
+      "spec": "手織りの本物のシルク"
     },
     {
       "id": "coin-purse",
-      "name": "象柄のコインケース・ポーチ",
+      "name": "象柄のコインケース",
       "unit": "1個",
       "keywords": [
         "コインケース",
@@ -770,11 +786,13 @@
           "verified": false,
           "quote": "10-50 ชิ้น: 9 บาท"
         }
-      ]
+      ],
+      "category": "goods",
+      "spec": "布・ファスナー付きの小さなもの"
     },
     {
       "id": "elephant-plush",
-      "name": "象のぬいぐるみ（タイ柄の布）",
+      "name": "象のぬいぐるみ",
       "unit": "1個",
       "keywords": [
         "ぬいぐるみ",
@@ -804,11 +822,13 @@
           "verified": false,
           "quote": "149 บาท (ลดจาก 299)"
         }
-      ]
+      ],
+      "category": "goods",
+      "spec": "布製・手のひらサイズ"
     },
     {
       "id": "keychain",
-      "name": "キーホルダー（象など）",
+      "name": "キーホルダー",
       "unit": "1個",
       "keywords": [
         "キーホルダー",
@@ -878,7 +898,9 @@
           "verified": false,
           "quote": "start at 50 TB"
         }
-      ]
+      ],
+      "category": "goods",
+      "spec": "小さな象など"
     },
     {
       "id": "magnet",
@@ -912,11 +934,13 @@
           "verified": false,
           "quote": "20 baht can hit 10"
         }
-      ]
+      ],
+      "category": "goods",
+      "spec": "冷蔵庫用の小さなもの"
     },
     {
       "id": "wood-carving",
-      "name": "木彫りの象（手のひらサイズ）",
+      "name": "木彫りの象",
       "unit": "1個",
       "keywords": [
         "木彫り",
@@ -968,11 +992,13 @@
           "verified": false,
           "quote": "often start at 300 baht"
         }
-      ]
+      ],
+      "category": "crafts",
+      "spec": "手のひらサイズ（15cm未満）"
     },
     {
       "id": "coconut-bowl",
-      "name": "ココナッツボウル（無地）",
+      "name": "ココナッツボウル",
       "unit": "1個",
       "keywords": [
         "ココナッツ",
@@ -1023,7 +1049,9 @@
           "verified": false,
           "quote": "35-79 บาท"
         }
-      ]
+      ],
+      "category": "crafts",
+      "spec": "無地・直径9〜14cm"
     },
     {
       "id": "benjarong",
@@ -1079,11 +1107,13 @@
           "verified": false,
           "quote": "500-650 บาท"
         }
-      ]
+      ],
+      "category": "crafts",
+      "spec": "カップとソーサー・普及品"
     },
     {
       "id": "woven-bag",
-      "name": "かごバッグ（クラジュート・ラタン）",
+      "name": "かごバッグ",
       "unit": "1個",
       "keywords": [
         "かご",
@@ -1146,11 +1176,13 @@
           "verified": false,
           "quote": "250–500 baht"
         }
-      ]
+      ],
+      "category": "bags",
+      "spec": "クラジュート・ラタン・小〜中サイズ"
     },
     {
       "id": "soap",
-      "name": "ソープフラワー（花の形の石けん）",
+      "name": "ソープフラワー",
       "unit": "1個",
       "keywords": [
         "石けん",
@@ -1183,7 +1215,9 @@
           "quote": "30-40 Baht"
         }
       ],
-      "note": "ブランドのハーブ石けん（1個70バーツ前後）は別の価格帯です。"
+      "note": "ブランドのハーブ石けん（1個70バーツ前後）は別の価格帯です。",
+      "category": "beauty",
+      "spec": "花の形・1個"
     },
     {
       "id": "yadom",
@@ -1258,7 +1292,9 @@
           "verified": false,
           "quote": "20 to 50 THB per tube"
         }
-      ]
+      ],
+      "category": "beauty",
+      "spec": "スティック型・1本"
     },
     {
       "id": "brand-style-bag",
@@ -1305,7 +1341,9 @@
           "verified": false,
           "quote": "Designer-inspired handbags start from 300 baht"
         }
-      ]
+      ],
+      "category": "bags",
+      "spec": "ロゴなし・合皮など"
     },
     {
       "id": "brand-style-wallet",
@@ -1381,7 +1419,9 @@
           "verified": false,
           "quote": "150-350 บาท"
         }
-      ]
+      ],
+      "category": "bags",
+      "spec": "ロゴなし・合皮など"
     },
     {
       "id": "brand-style-watch",
@@ -1427,7 +1467,9 @@
           "verified": false,
           "quote": "Watches for 150 baht"
         }
-      ]
+      ],
+      "category": "accessories",
+      "spec": "ロゴなし・クオーツ"
     },
     {
       "id": "brand-style-sneakers",
@@ -1463,7 +1505,9 @@
           "verified": false,
           "quote": "65 บาท/คู่ ถึง 115 บาท/คู่"
         }
-      ]
+      ],
+      "category": "clothing",
+      "spec": "ロゴなし・布や合皮"
     },
     {
       "id": "sunglasses",
@@ -1568,11 +1612,13 @@
           "verified": false,
           "quote": "100–200 THB"
         }
-      ]
+      ],
+      "category": "accessories",
+      "spec": "ロゴなし・UVカット表示は未確認"
     },
     {
       "id": "thai-tea",
-      "name": "タイティー（チャトラムー 400g）",
+      "name": "タイティー",
       "unit": "1袋",
       "keywords": [
         "タイティー",
@@ -1614,11 +1660,13 @@
           "verified": false,
           "quote": "80 บาท"
         }
-      ]
+      ],
+      "category": "beauty",
+      "spec": "茶葉・400g袋"
     },
     {
       "id": "dried-mango",
-      "name": "ドライマンゴー（ドイカム）",
+      "name": "ドライマンゴー",
       "unit": "1袋（140g）",
       "keywords": [
         "マンゴー",
@@ -1639,7 +1687,9 @@
           "verified": false,
           "quote": "140 กรัม ราคาขายปลีก 75 บาท"
         }
-      ]
+      ],
+      "category": "beauty",
+      "spec": "140g袋"
     }
   ]
 }

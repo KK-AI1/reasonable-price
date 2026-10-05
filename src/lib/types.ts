@@ -114,12 +114,17 @@ export interface PriceObservation {
   verified: boolean
 }
 
+export type ItemCategory = 'clothing' | 'bags' | 'goods' | 'crafts' | 'beauty' | 'accessories'
+
 export interface Item {
   id: string
   name: string
   unit: string
   keywords: string[]
   negotiable: boolean
+  category: ItemCategory
+  /** 素材・大きさなど、値段の前提になる仕様（例：薄手・一般的な生地） */
+  spec: string
   /** 画面に出す補足（ブランド風の注意など） */
   note?: string
   observations: PriceObservation[]

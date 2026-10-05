@@ -22,6 +22,8 @@ const item = (observations: ReturnType<typeof obs>[], extra: Partial<Item> = {})
   unit: '1個',
   keywords: [],
   negotiable: true,
+  category: 'goods',
+  spec: '',
   observations,
   ...extra,
 })
