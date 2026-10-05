@@ -4,6 +4,7 @@
 
 - 機能と計算の仕様：`docs/SPEC.md`
 - UI・デザインの仕様：`docs/DESIGN.md`（画面を作る・変更するときは必ず従う）
+- 「代わりに話す」交渉モードの仕様：`docs/VOICE.md`（音声・翻訳まわりを作る・変更するときは必ず従う）
 
 ## プロダクト概要
 
@@ -45,7 +46,8 @@ price-coach/
 ├── CLAUDE.md
 ├── docs/
 │   ├── SPEC.md
-│   └── DESIGN.md
+│   ├── DESIGN.md
+│   └── VOICE.md
 ├── src/
 │   ├── styles/tokens.css              # デザイントークン（色・文字・余白）
 │   ├── data/
@@ -56,6 +58,8 @@ price-coach/
 │   │   ├── fare.ts                    # 規制価格の計算
 │   │   ├── price.ts                   # 交渉価格の推定
 │   │   ├── coach.ts                   # 交渉コーチ（次の一手の計算）
+│   │   ├── thai-number.ts             # 数字 ⇔ タイ語の数詞
+│   │   ├── extract-amount.ts          # 売り手の発言から金額を抜き出す
 │   │   └── types.ts                   # 型定義
 │   ├── features/
 │   │   ├── fare-check/                # 乗り物の運賃チェック画面

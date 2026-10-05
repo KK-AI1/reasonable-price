@@ -63,3 +63,34 @@ export interface TaxiFareResult {
   /** 使ったデータがすべて確認済みか */
   verified: boolean
 }
+
+/** 交渉価格の幅（docs/SPEC.md §3.2・§4.1）。全員共通 */
+export interface PriceRange {
+  /** P25 */
+  low: number
+  /** P50：目標価格 */
+  target: number
+  /** P75：ここまでなら買ってよい */
+  limit: number
+}
+
+export interface CoachConfig {
+  floorRatioOfLow: number
+  concessionRatio: number
+  roundTo: number
+  walkAwayAfterStalls: number
+}
+
+/** 交渉のやり取り。theirs は売り手の言い値（確定したものだけ）、ours はこちらが言った額 */
+export interface CoachHistory {
+  theirs: number[]
+  ours: number[]
+}
+
+export type CoachMove =
+  /** この額を提案する */
+  | { action: 'offer'; amount: number; reason: 'first' | 'counter' | 'hold' | 'final' }
+  /** 相手の額で買ってよい */
+  | { action: 'buy'; amount: number; reason: 'at-or-below-target' | 'within-limit' | 'met-our-offer' }
+  /** お礼を言って立ち去る */
+  | { action: 'walk-away'; amount: number }

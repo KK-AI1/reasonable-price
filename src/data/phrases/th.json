@@ -1,9 +1,95 @@
 {
-  "useMeter": {
-    "ja": "メーターを使ってください",
-    "th": "เปิดมิเตอร์ด้วยครับ/ค่ะ",
-    "reading": "プート ミター ドゥアイ クラップ／カー",
-    "note": "語尾は話す人に合わせて クラップ（ครับ）か カー（ค่ะ）を使う",
-    "verified": false
-  }
+  "language": "th-TH",
+  "source": "作成者による翻訳（ネイティブ未確認）",
+  "checkedAt": "2026-10-05",
+  "politeEndings": {
+    "krap": {
+      "label": "ครับ（クラップ）",
+      "note": "主に男性の話し手が使う語尾",
+      "question": "ครับ",
+      "statement": "ครับ",
+      "reading": "クラップ"
+    },
+    "ka": {
+      "label": "ค่ะ（カー）",
+      "note": "主に女性の話し手が使う語尾",
+      "question": "คะ",
+      "statement": "ค่ะ",
+      "reading": "カー"
+    }
+  },
+  "phrases": [
+    {
+      "id": "how-much",
+      "ja": "いくらですか？",
+      "th": "ราคาเท่าไหร่{polite}",
+      "reading": "ラーカー タオライ {polite}",
+      "ending": "question",
+      "verified": false
+    },
+    {
+      "id": "too-expensive",
+      "ja": "ちょっと高いです",
+      "th": "แพงไปหน่อย{polite}",
+      "reading": "ペーン パイ ノイ {polite}",
+      "ending": "statement",
+      "verified": false
+    },
+    {
+      "id": "offer",
+      "ja": "{amount}バーツでどうですか？",
+      "th": "{amount} บาทได้ไหม{polite}",
+      "reading": "{amount} バート ダイ マイ {polite}",
+      "ending": "question",
+      "verified": false
+    },
+    {
+      "id": "bulk",
+      "ja": "まとめて買うと安くなりますか？",
+      "th": "ซื้อหลายชิ้นลดได้ไหม{polite}",
+      "reading": "スー ラーイ チン ロット ダイ マイ {polite}",
+      "ending": "question",
+      "verified": false
+    },
+    {
+      "id": "buy-at",
+      "ja": "{amount}バーツなら買います",
+      "th": "ถ้า {amount} บาท ซื้อเลย{polite}",
+      "reading": "ター {amount} バート スー ルーイ {polite}",
+      "ending": "statement",
+      "verified": false
+    },
+    {
+      "id": "think",
+      "ja": "少し考えます",
+      "th": "ขอคิดดูก่อน{polite}",
+      "reading": "コー キット ドゥー ゴーン {polite}",
+      "ending": "statement",
+      "verified": false
+    },
+    {
+      "id": "thanks",
+      "ja": "ありがとう",
+      "th": "ขอบคุณ{polite}",
+      "reading": "コップクン {polite}",
+      "ending": "statement",
+      "verified": false
+    },
+    {
+      "id": "use-meter",
+      "ja": "メーターを使ってください",
+      "th": "เปิดมิเตอร์ด้วย{polite}",
+      "reading": "プート ミター ドゥアイ {polite}",
+      "ending": "statement",
+      "verified": false
+    },
+    {
+      "id": "enter-amount",
+      "ja": "金額を入力してください",
+      "th": "กรุณาใส่ราคา{polite}",
+      "reading": "ガルナー サイ ラーカー {polite}",
+      "ending": "statement",
+      "verified": false
+    }
+  ]
 }

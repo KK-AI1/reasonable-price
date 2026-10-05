@@ -1,13 +1,18 @@
 import { useState } from 'react'
-import phrases from '../../data/phrases/th.json'
+import phraseBook from '../../data/phrases/th.json'
 import { Money } from '../../components/Money'
 import { ScreenHeader } from '../../components/ScreenHeader'
 import { UnverifiedBadge } from '../../components/UnverifiedBadge'
 import { VerdictBadge } from '../../components/VerdictBadge'
 import { bangkokTaxi, bangkokTaxiConfig } from '../../lib/city'
 import { calcTaxiFare, judgeTaxiAsk } from '../../lib/fare'
+import { buildPhrase, type PhraseBook } from '../../lib/phrases'
 import { useExchangeRate } from '../../lib/useExchangeRate'
 import type { Congestion, TaxiVehicle, Verdict } from '../../lib/types'
+
+// 語尾の設定画面ができるまでは「ครับ」を使い、読みに両方を併記する
+const useMeter = buildPhrase(phraseBook as PhraseBook, 'use-meter', 'krap')
+const useMeterKa = buildPhrase(phraseBook as PhraseBook, 'use-meter', 'ka')
 
 const verdictMessage: Record<Verdict, string> = {
   fair: 'メーター額の目安どおりです。',
@@ -126,12 +131,15 @@ export function FareCheck({ onBack }: { onBack: () => void }) {
         </section>
 
         <section aria-label="タイ語のフレーズ" className="rounded-card bg-brand-soft p-4">
-          <p className="text-label text-text-sub">{phrases.useMeter.ja}</p>
+          <p className="text-label text-text-sub">{useMeter.ja}</p>
           <p className="text-title" lang="th">
-            {phrases.useMeter.th}
+            {useMeter.thDisplay}
           </p>
-          <p className="text-body text-text-sub">{phrases.useMeter.reading}</p>
-          {!phrases.useMeter.verified && (
+          <p className="text-body text-text-sub">{useMeter.reading}</p>
+          <p className="text-caption text-text-sub">
+            語尾を「カー」にする場合：<span lang="th">{useMeterKa.thDisplay}</span>
+          </p>
+          {!useMeter.verified && (
             <p className="mt-1">
               <UnverifiedBadge />
             </p>

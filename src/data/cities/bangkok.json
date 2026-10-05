@@ -23,5 +23,12 @@
       "cautionMaxRatio": 1.5
     },
     "note": "渋滞の換算としきい値は初期値（docs/SPEC.md §2.2・§2.3）。現地テストで調整する"
+  },
+  "coach": {
+    "floorRatioOfLow": 0.9,
+    "concessionRatio": 0.5,
+    "roundTo": 10,
+    "walkAwayAfterStalls": 2,
+    "note": "交渉コーチの初期値（docs/SPEC.md §4）。現地テストで調整する"
   }
 }
