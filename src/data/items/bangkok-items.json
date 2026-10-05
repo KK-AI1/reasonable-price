@@ -1,0 +1,68 @@
+{
+  "city": "bangkok",
+  "note": "MVP 用の仮データ。旅行サイトの検索結果の要約から拾った値で、原文・現地では未確認。現地調査で置き換える",
+  "items": [
+    {
+      "id": "elephant-pants",
+      "name": "象柄のパンツ",
+      "unit": "1枚",
+      "keywords": ["パンツ", "ズボン", "エレファント"],
+      "negotiable": true,
+      "observations": [
+        { "price": 100, "venue": "market", "source": "Atlys「32 Things to Buy in Thailand」", "sourceUrl": "https://www.atlys.com/blog/what-to-buy-in-thailand", "checkedAt": "2026-10-05", "verified": false },
+        { "price": 150, "venue": "market", "source": "Atlys「32 Things to Buy in Thailand」", "sourceUrl": "https://www.atlys.com/blog/what-to-buy-in-thailand", "checkedAt": "2026-10-05", "verified": false },
+        { "price": 250, "venue": "market", "source": "Atlys「32 Things to Buy in Thailand」", "sourceUrl": "https://www.atlys.com/blog/what-to-buy-in-thailand", "checkedAt": "2026-10-05", "verified": false },
+        { "price": 300, "venue": "market", "source": "ILP Blog「Shopping in Thailand」", "sourceUrl": "https://blog.ilp.org/shopping-in-thailand", "checkedAt": "2026-10-05", "verified": false }
+      ]
+    },
+    {
+      "id": "t-shirt",
+      "name": "Tシャツ",
+      "unit": "1枚",
+      "keywords": ["シャツ", "服"],
+      "negotiable": true,
+      "observations": [
+        { "price": 50, "venue": "market", "source": "Atlys「32 Things to Buy in Thailand」", "sourceUrl": "https://www.atlys.com/blog/what-to-buy-in-thailand", "checkedAt": "2026-10-05", "verified": false },
+        { "price": 100, "venue": "market", "source": "That Bangkok Life「Cheap things to buy in Bangkok」", "sourceUrl": "https://www.thatbangkoklife.com/cheap-things-to-buy-in-bangkok/", "checkedAt": "2026-10-05", "verified": false },
+        { "price": 150, "venue": "market", "source": "CK Travels「Chatuchak Weekend Market」", "sourceUrl": "https://www.cktravels.com/chatuchak-weekend-market-bangkok-ultimate-guide/", "checkedAt": "2026-10-05", "verified": false },
+        { "price": 280, "venue": "market", "source": "CK Travels「Chatuchak Weekend Market」", "sourceUrl": "https://www.cktravels.com/chatuchak-weekend-market-bangkok-ultimate-guide/", "checkedAt": "2026-10-05", "verified": false }
+      ]
+    },
+    {
+      "id": "keychain",
+      "name": "キーホルダー・マグネット",
+      "unit": "1個",
+      "keywords": ["キーホルダー", "マグネット", "小物"],
+      "negotiable": true,
+      "observations": [
+        { "price": 10, "venue": "market", "source": "The Longest Way Home「How to Bargain for Souvenirs in Thailand」", "sourceUrl": "https://www.thelongestwayhome.com/travel-guides/thailand/how-to-bargain-for-souvenirs-deals-thailand.html", "checkedAt": "2026-10-05", "verified": false },
+        { "price": 20, "venue": "market", "source": "The Longest Way Home「How to Bargain for Souvenirs in Thailand」", "sourceUrl": "https://www.thelongestwayhome.com/travel-guides/thailand/how-to-bargain-for-souvenirs-deals-thailand.html", "checkedAt": "2026-10-05", "verified": false },
+        { "price": 20, "venue": "market", "source": "That Bangkok Life「Cheap things to buy in Bangkok」", "sourceUrl": "https://www.thatbangkoklife.com/cheap-things-to-buy-in-bangkok/", "checkedAt": "2026-10-05", "verified": false },
+        { "price": 50, "venue": "market", "source": "ILP Blog「Shopping in Thailand」", "sourceUrl": "https://blog.ilp.org/shopping-in-thailand", "checkedAt": "2026-10-05", "verified": false }
+      ]
+    },
+    {
+      "id": "silk-scarf",
+      "name": "シルクのスカーフ",
+      "unit": "1枚",
+      "keywords": ["スカーフ", "ストール", "シルク"],
+      "negotiable": true,
+      "observations": [
+        { "price": 200, "venue": "market", "source": "The Longest Way Home「How to Bargain for Souvenirs in Thailand」", "sourceUrl": "https://www.thelongestwayhome.com/travel-guides/thailand/how-to-bargain-for-souvenirs-deals-thailand.html", "checkedAt": "2026-10-05", "verified": false },
+        { "price": 800, "venue": "market", "source": "Trip.com「What to Buy in Bangkok」", "sourceUrl": "https://sg.trip.com/guide/shopping/what-to-buy-in-bangkok.html", "checkedAt": "2026-10-05", "verified": false },
+        { "price": 1500, "venue": "market", "source": "Trip.com「What to Buy in Bangkok」", "sourceUrl": "https://sg.trip.com/guide/shopping/what-to-buy-in-bangkok.html", "checkedAt": "2026-10-05", "verified": false }
+      ]
+    },
+    {
+      "id": "wood-carving",
+      "name": "木彫りの置物（小）",
+      "unit": "1個",
+      "keywords": ["木彫り", "置物", "ゾウ"],
+      "negotiable": true,
+      "observations": [
+        { "price": 100, "venue": "market", "source": "The Longest Way Home「How to Bargain for Souvenirs in Thailand」", "sourceUrl": "https://www.thelongestwayhome.com/travel-guides/thailand/how-to-bargain-for-souvenirs-deals-thailand.html", "checkedAt": "2026-10-05", "verified": false },
+        { "price": 150, "venue": "market", "source": "The Longest Way Home「How to Bargain for Souvenirs in Thailand」", "sourceUrl": "https://www.thelongestwayhome.com/travel-guides/thailand/how-to-bargain-for-souvenirs-deals-thailand.html", "checkedAt": "2026-10-05", "verified": false }
+      ]
+    }
+  ]
+}

@@ -2,10 +2,10 @@ import { useState } from 'react'
 import { ComingSoon } from './components/ComingSoon'
 import { FareCheck } from './features/fare-check/FareCheck'
 import { Home, type Screen } from './features/home/Home'
+import { PriceCheck } from './features/price-check/PriceCheck'
 import { ExchangeRateContext, useLatestExchangeRate } from './lib/useExchangeRate'
 
-const comingSoonTitles: Record<Exclude<Screen, 'home' | 'fare-check'>, string> = {
-  'price-check': '市場の買い物',
+const comingSoonTitles: Record<Exclude<Screen, 'home' | 'fare-check' | 'price-check'>, string> = {
   tuktuk: 'トゥクトゥク',
   coach: '交渉コーチ',
   phrases: 'フレーズ帳',
@@ -25,7 +25,10 @@ export default function App() {
       <main className="mx-auto min-h-svh max-w-md bg-bg">
         {screen === 'home' && <Home onOpen={setScreen} />}
         {screen === 'fare-check' && <FareCheck onBack={goHome} />}
-        {screen !== 'home' && screen !== 'fare-check' && (
+        {screen === 'price-check' && (
+          <PriceCheck onBack={goHome} onStartCoach={() => setScreen('coach')} />
+        )}
+        {screen !== 'home' && screen !== 'fare-check' && screen !== 'price-check' && (
           <ComingSoon title={comingSoonTitles[screen]} onBack={goHome} />
         )}
       </main>

@@ -10,6 +10,8 @@ export default defineConfig({
     react(),
     tailwindcss(),
     VitePWA({
+      // 共有用のプレビュー（ARTIFACT=1）では Service Worker を使わない
+      disable: process.env.ARTIFACT === '1',
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg'],
       manifest: {

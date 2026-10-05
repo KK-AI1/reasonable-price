@@ -94,3 +94,51 @@ export type CoachMove =
   | { action: 'buy'; amount: number; reason: 'at-or-below-target' | 'within-limit' | 'met-our-offer' }
   /** お礼を言って立ち去る */
   | { action: 'walk-away'; amount: number }
+
+export interface PriceObservation {
+  price: number
+  venue: string
+  source: string
+  sourceUrl?: string
+  checkedAt: string
+  verified: boolean
+}
+
+export interface Item {
+  id: string
+  name: string
+  unit: string
+  keywords: string[]
+  negotiable: boolean
+  observations: PriceObservation[]
+}
+
+export interface Venue {
+  id: string
+  name: string
+  factor: number
+  negotiable: boolean
+}
+
+export interface PriceConfig {
+  minObservationsForQuantiles: number
+  minObservationsForRange: number
+  quantityTiers: { minQty: number; factor: number }[]
+  verdictHighRatio: number
+  askMarkup: number
+}
+
+export type PriceEstimate =
+  | { status: 'no-haggle' }
+  | { status: 'insufficient'; count: number }
+  | {
+      status: 'ok' | 'few'
+      /** 1つあたり */
+      unit: PriceRange
+      /** 数量分の合計 */
+      total: PriceRange
+      quantity: number
+      count: number
+      verified: boolean
+      sources: { source: string; sourceUrl?: string; checkedAt: string }[]
+    }
